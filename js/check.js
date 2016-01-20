@@ -1,14 +1,6 @@
-console.log("проверка подключения");
-
 var a, b;
 
 function getMessage (a, b) {
-
-  console.log(a, b);
-  console.log(typeof a);
-  console.log(typeof b);
-  console.log("--------");
-
 
   // Если первый аргумент, a, имеет тип boolean, то:
   if (typeof a === "boolean") {
@@ -25,8 +17,6 @@ function getMessage (a, b) {
 
   // Если первый аргумент имеет числовой тип, то вернуть строку:
   if (typeof a === "number") {
-
-    console.log("number " + a);
 
     return ("Переданное SVG-изображение содержит " + a + " объектов и " + (b * 4) + " аттрибутов");
   }
@@ -51,10 +41,6 @@ function getMessage (a, b) {
 
   // Если оба аргумента массивы, то вернуть строку:
   if (typeof a === "object" && typeof b === "object") {
-
-    console.log("a и b = object, jpg");
-    console.log(a.length);
-    console.log(b.length);
 
     var square = 0;
     var sumA = 0;
