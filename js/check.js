@@ -42,13 +42,11 @@ function getMessage (a, b) {
     var sum = 0;
 
     for (var i = 0; i < a.length; i++) {
-      sum += a.length[i];
+      sum += a[i];
     };
 
-    console.log(sum);
-
     //"Количество красных точек во всех строчках изображения: " + sum + ".";
-    return "Количество красных точек во всех строчках изображения:" + sum;
+    return "Количество красных точек во всех строчках изображения: " + sum + ".";
   };
 
   // Если оба аргумента массивы, то вернуть строку:
@@ -56,17 +54,18 @@ function getMessage (a, b) {
 
     console.log("a и b = object, jpg");
     console.log(a.length);
+    console.log(b.length);
 
     var square = 0;
     var sumA = 0;
     var sumB = 0;
 
     for (var i = 0; i < a.length; i++) {
-      sumA[i] += a.length[i];
+      sumA += a[i];
     };
 
     for (var i = 0; i < b.length; i++) {
-      sumB[i] += b.length[i];
+      sumB += b[i];
     };
 
     square = sumA * sumB;
