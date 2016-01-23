@@ -25,10 +25,6 @@ function getMessage (a, b) {
   // Если первый аргумент массив, то вернуть строку:
   if (typeof a === "object" && typeof b === "undefined") {
 
-    console.log("a = object, png");
-    console.log(a); // [23, 11, 75, 88, 14]
-    console.log(a.length); // [5]
-
     var sum = 0;
 
     for (var i = 0; i < a.length; i++) {
@@ -47,7 +43,7 @@ function getMessage (a, b) {
     var sumB = 0;
 
     for (var i = 0; i < a.length; i++) {
-      sumA += a[i];
+      sumA += a[i]; //* b[i];
     };
 
     for (var i = 0; i < b.length; i++) {
