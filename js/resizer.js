@@ -79,54 +79,99 @@
      * Отрисовка канваса.
      */
     redraw: function() {
-      // Очистка изображения.
+           // Очистка изображения.
       this._ctx.clearRect(0, 0, this._container.width, this._container.height);
 
-      // Параметры линии.
-      // NB! Такие параметры сохраняются на время всего процесса отрисовки
-      // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
-      // чего-либо с другой обводкой.
+           // Параметры линии.
+           // NB! Такие параметры сохраняются на время всего процесса отрисовки
+           // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
+           // чего-либо с другой обводкой.
 
-      // Толщина линии.
-      this._ctx.lineWidth = 6;
-      // Цвет обводки.
+           // Толщина линии.
+      this._ctx.lineWidth = 3;
+           // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
-      // Размер штрихов. Первый элемент массива задает длину штриха, второй
-      // расстояние между соседними штрихами.
-      this._ctx.setLineDash([15, 10]);
-      // Смещение первого штриха от начала линии.
+           // Размер штрихов. Первый элемент массива задает длину штриха, второй
+           // расстояние между соседними штрихами.
+      this._ctx.setLineDash([3, 3]);
+     // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
-      // Сохранение состояния канваса.
-      // Подробней см. строку 132.
+     // Сохранение состояния канваса.
+     // Подробней см. строку 132.
       this._ctx.save();
 
-      // Установка начальной точки системы координат в центр холста.
+     // Установка начальной точки системы координат в центр холста.
       this._ctx.translate(this._container.width / 2, this._container.height / 2);
 
       var displX = -(this._resizeConstraint.x + this._resizeConstraint.side / 2);
       var displY = -(this._resizeConstraint.y + this._resizeConstraint.side / 2);
-      // Отрисовка изображения на холсте. Параметры задают изображение, которое
-      // нужно отрисовать и координаты его верхнего левого угла.
-      // Координаты задаются от центра холста.
+     // Отрисовка изображения на холсте. Параметры задают изображение, которое
+     // нужно отрисовать и координаты его верхнего левого угла.
+     // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      // Отрисовка прямоугольника, обозначающего область изображения после
-      // кадрирования. Координаты задаются от центра.
-      this._ctx.strokeRect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2);
+      var sizeRect = {
+        rectX: (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+        rectY: (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+        rectW: this._resizeConstraint.side - this._ctx.lineWidth / 2,
+        rectH: this._resizeConstraint.side - this._ctx.lineWidth / 2
+      };
 
-      // Восстановление состояния канваса, которое было до вызова ctx.save
-      // и последующего изменения системы координат. Нужно для того, чтобы
-      // следующий кадр рисовался с привычной системой координат, где точка
-      // 0 0 находится в левом верхнем углу холста, в противном случае
-      // некорректно сработает даже очистка холста или нужно будет использовать
-      // сложные рассчеты для координат прямоугольника, который нужно очистить.
+       //добавление маски
+      this.addMask(this._ctx.lineWidth, sizeRect);
+
+       // Отрисовка прямоугольника, обозначающего область изображения после
+       // кадрирования. Координаты задаются от центра.
+      this._ctx.strokeRect(sizeRect.rectX, sizeRect.rectY, sizeRect.rectW, sizeRect.rectH);
+
+       //добавление размера изображения
+      var textSizeImage = this._image.naturalWidth + ' x ' + this._image.naturalHeight;
+      this.addSizeImage(textSizeImage, 0, -(this._resizeConstraint.side / 2 + 10 ) - this._ctx.lineWidth / 2);
+
+       // Восстановление состояния канваса, которое было до вызова ctx.save
+       // и последующего изменения системы координат. Нужно для того, чтобы
+       // следующий кадр рисовался с привычной системой координат, где точка
+       // 0 0 находится в левом верхнем углу холста, в противном случае
+       // некорректно сработает даже очистка холста или нужно будет использовать
+       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
     },
+
+    addMask: function(strokeWidth, rect) {
+       //новый второй canvas mask
+      var mask = document.createElement('canvas');
+      var _ctxMask = mask.getContext('2d');
+       //размеры mask
+      mask.width = this._container.width;
+      mask.height = this._container.height;
+       //рисуем первую маску с размером равным размеру изображения
+      _ctxMask.beginPath();
+      _ctxMask.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      _ctxMask.fillRect(0, 0, mask.width, mask.height);
+      _ctxMask.fill();
+       //xor — место пересечения фигур прозрачно
+      _ctxMask.globalCompositeOperation = 'xor';
+       //переводим систему координат в центр картинки
+      _ctxMask.translate(this._container.width / 2, this._container.height / 2);
+       //рисуем вторую маску размером в размер кадрирования с учетом обводки желтым контуром
+      _ctxMask.beginPath();
+      _ctxMask.fillRect(
+         rect.rectX - strokeWidth / 2,
+         rect.rectY - strokeWidth / 2,
+         rect.rectW + strokeWidth,
+         rect.rectH + strokeWidth);
+      _ctxMask.fill();
+       //рисуем на первом canvas _ctx
+      this._ctx.drawImage(mask, -this._container.width / 2, -this._container.height / 2);
+    },
+
+    addSizeImage: function(text, coordinateX, coordinateY) {
+      this._ctx.font = '18px Arial bold';
+      this._ctx.fillStyle = '#ffffff';
+      this._ctx.textAlign = 'center';
+      this._ctx.fillText(text, coordinateX, coordinateY);
+    },
+
 
     /**
      * Включение режима перемещения. Запоминается текущее положение курсора,
