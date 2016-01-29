@@ -41,6 +41,17 @@
    */
   var currentResizer;
 
+  //слева
+  var resizeX = document.getElementById('resize-x');
+  //сверху
+  var resizeY = document.getElementById('resize-y');
+  //сторона
+  var resizeS = document.getElementById('resize-size');
+
+  resizeX.required = true;
+  resizeY.required = true;
+  resizeS.required = true;
+
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -72,6 +83,33 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
+
+    //размер фото
+    var naturalWidth = currentResizer._image.naturalWidth;
+    var naturalHeight = currentResizer._image.naturalHeight;
+    // сохранение значеий как числа
+    var yValue = +document.getElementById('resize-y').value;
+    var sValue = +document.getElementById('resize-size').value;
+    var xValue = +document.getElementById('resize-x').value;
+
+
+
+
+    if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth)) {
+
+      uploadFormFrw[0].setAttribute('disabled', true);
+      uploadFormFrw[0].innerHTML = 'BAD SIZE';
+      uploadFormFrw[0].style.color = 'red';
+      uploadFormFrw[0].style.background = 'rgba(255, 255, 255, 0.2)';
+      uploadFormFrw[0].style.url = '';
+
+      setTimeout(backToBack, 2000);
+
+      return false;
+    }
+
+
+
     return true;
   }
 
@@ -103,7 +141,9 @@
    */
   var uploadMessage = document.querySelector('.upload-message');
 
-  /**
+  var uploadFormFrw = document.getElementsByClassName('upload-form-controls-fwd');
+
+    /**
    * @param {Action} action
    * @param {string=} message
    * @return {Element}
@@ -182,6 +222,8 @@
     cleanupResizer();
     updateBackground();
 
+
+
     resizeForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
   };
@@ -253,6 +295,17 @@
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
+
+// восстановеление кнопки
+  function backToBack() {
+    uploadFormFrw[0].removeAttribute('disabled');
+    uploadFormFrw[0].innerHTML = ' ';
+    uploadFormFrw[0].style.color = 'buttontext';
+    uploadFormFrw[0].style.background = 'rgba(255, 231, 83, 0.2)';
+    uploadFormFrw[0].style.backgroundImage = 'url("../67190-kekstagram-AD/img/icon-arrow.png")';
+    uploadFormFrw[0].style.backgroundPosition = 'center';
+    uploadFormFrw[0].style.backgroundRepeat = 'no-repeat';
+  }
 
   cleanupResizer();
   updateBackground();
