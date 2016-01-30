@@ -55,7 +55,7 @@
   //установка времени для куки
   var now = new Date();
   var MY_LAST_BD = (1439510400); // 14 августа 2015
-  var exDate = new Date(now.getTime() - MY_LAST_BD);
+  var exDate = new Date(now.getTime() + MY_LAST_BD);
 
 
   //конец констант//////////////////////////
@@ -271,6 +271,7 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+
     var selectedFilter = filterForm.querySelector('input[name="upload-filter"]:checked').value;
 
 
@@ -339,7 +340,6 @@
 
     // фильтр на картинку из куки
     filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilter;
-
   }
 
   cleanupResizer();
