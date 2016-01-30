@@ -1,4 +1,4 @@
-/* global Resizer: true */
+/* global Resizer, docCookies: true */
 
 /**
  * @fileoverview
@@ -52,6 +52,14 @@
   resizeY.required = true;
   resizeS.required = true;
 
+  //установка времени для куки
+  var now = new Date();
+  var MY_LAST_BD = (1439510400); // 14 августа 2015
+  var exDate = new Date(now.getTime() - MY_LAST_BD);
+
+
+  //конец констант//////////////////////////
+
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -94,7 +102,7 @@
 
 
     if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth)) {
-
+      //если нет меняем кнопку
       uploadFormFrw[0].setAttribute('disabled', true);
       uploadFormFrw[0].innerHTML = 'BAD SIZE';
       uploadFormFrw[0].style.color = 'red';
@@ -105,8 +113,6 @@
 
       return false;
     }
-
-
 
     return true;
   }
@@ -238,6 +244,7 @@
     evt.preventDefault();
 
     if (resizeFormIsValid()) {
+
       filterImage.src = currentResizer.exportImage().src;
 
       resizeForm.classList.add('invisible');
@@ -264,11 +271,19 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+    var selectedFilter = filterForm.querySelector('input[name="upload-filter"]:checked').value;
+
+
+    setCookieFun('filterInCookie', selectedFilter, exDate.toUTCString());
+    //document.cookie = 'filterInCookie' + '=' + selectedFilter + '; expires=' + exDate.toUTCString();
+
     cleanupResizer();
     updateBackground();
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
+
+    filterForm.submit();
   };
 
   /**
@@ -306,6 +321,25 @@
     uploadFormFrw[0].style.backgroundImage = 'url("img/icon-arrow.png")';
     uploadFormFrw[0].style.backgroundPosition = 'center';
     uploadFormFrw[0].style.backgroundRepeat = 'no-repeat';
+  }
+
+  /**
+   *  Функиция записи в cookie
+   */
+  function setCookieFun(name, value, expires) {
+    document.cookie = name + '=' + value + '; expires=' + expires;
+  }
+
+
+  var selectedFilter = docCookies.getItem('filterInCookie');
+  if (selectedFilter) {
+    // лейбл
+    var savedRadio = filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilter + '"]');
+    savedRadio.setAttribute('checked', true);
+
+    // фильтр на картинку из куки
+    filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilter;
+
   }
 
   cleanupResizer();
