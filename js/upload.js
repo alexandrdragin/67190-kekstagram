@@ -335,9 +335,7 @@
   var selectedFilter = docCookies.getItem('filterInCookie');
   if (selectedFilter) {
     // лейбл
-    var savedRadio = filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilter + '"]');
-    savedRadio.setAttribute('checked', true);
-
+    filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilter + '"]').checked = true;
     // фильтр на картинку из куки
     filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilter;
   }
