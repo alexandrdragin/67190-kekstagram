@@ -93,8 +93,6 @@
     var xValue = +document.getElementById('resize-x').value;
 
 
-
-
     if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth)) {
 
       uploadFormFrw[0].setAttribute('disabled', true);
@@ -141,6 +139,9 @@
    */
   var uploadMessage = document.querySelector('.upload-message');
 
+  /**
+   * @type {HTMLElement}
+   */
   var uploadFormFrw = document.getElementsByClassName('upload-form-controls-fwd');
 
     /**
