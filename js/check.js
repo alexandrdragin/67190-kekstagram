@@ -1,14 +1,6 @@
-console.log("проверка подключения");
-
 var a, b;
 
 function getMessage (a, b) {
-
-  console.log(a, b);
-  console.log(typeof a);
-  console.log(typeof b);
-  console.log("--------");
-
 
   // Если первый аргумент, a, имеет тип boolean, то:
   if (typeof a === "boolean") {
@@ -26,18 +18,12 @@ function getMessage (a, b) {
   // Если первый аргумент имеет числовой тип, то вернуть строку:
   if (typeof a === "number") {
 
-    console.log("number " + a);
-
     return ("Переданное SVG-изображение содержит " + a + " объектов и " + (b * 4) + " аттрибутов");
   }
 
 
   // Если первый аргумент массив, то вернуть строку:
   if (typeof a === "object" && typeof b === "undefined") {
-
-    console.log("a = object, png");
-    console.log(a); // [23, 11, 75, 88, 14]
-    console.log(a.length); // [5]
 
     var sum = 0;
 
@@ -52,16 +38,12 @@ function getMessage (a, b) {
   // Если оба аргумента массивы, то вернуть строку:
   if (typeof a === "object" && typeof b === "object") {
 
-    console.log("a и b = object, jpg");
-    console.log(a.length);
-    console.log(b.length);
-
     var square = 0;
     var sumA = 0;
     var sumB = 0;
 
     for (var i = 0; i < a.length; i++) {
-      sumA += a[i];
+      sumA += a[i]; //* b[i];
     };
 
     for (var i = 0; i < b.length; i++) {

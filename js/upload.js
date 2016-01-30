@@ -1,4 +1,4 @@
-/* global Resizer: true */
+/* global Resizer, docCookies: true */
 
 /**
  * @fileoverview
@@ -41,6 +41,25 @@
    */
   var currentResizer;
 
+  //слева
+  var resizeX = document.getElementById('resize-x');
+  //сверху
+  var resizeY = document.getElementById('resize-y');
+  //сторона
+  var resizeS = document.getElementById('resize-size');
+
+  resizeX.required = true;
+  resizeY.required = true;
+  resizeS.required = true;
+
+  //установка времени для куки
+  var now = new Date();
+  var MY_LAST_BD = (1439510400); // 14 августа 2015
+  var exDate = new Date(now.getTime() + MY_LAST_BD);
+
+
+  //конец констант//////////////////////////
+
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
    * изображением.
@@ -72,6 +91,29 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
+
+    //размер фото
+    var naturalWidth = currentResizer._image.naturalWidth;
+    var naturalHeight = currentResizer._image.naturalHeight;
+    // сохранение значеий как числа
+    var yValue = +document.getElementById('resize-y').value;
+    var sValue = +document.getElementById('resize-size').value;
+    var xValue = +document.getElementById('resize-x').value;
+
+
+    if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth)) {
+      //если нет меняем кнопку
+      uploadFormFrw[0].setAttribute('disabled', true);
+      uploadFormFrw[0].innerHTML = 'BAD SIZE';
+      uploadFormFrw[0].style.color = 'red';
+      uploadFormFrw[0].style.background = 'rgba(255, 255, 255, 0.2)';
+      uploadFormFrw[0].style.url = '';
+
+      setTimeout(backToBack, 2000);
+
+      return false;
+    }
+
     return true;
   }
 
@@ -104,6 +146,11 @@
   var uploadMessage = document.querySelector('.upload-message');
 
   /**
+   * @type {HTMLElement}
+   */
+  var uploadFormFrw = document.getElementsByClassName('upload-form-controls-fwd');
+
+    /**
    * @param {Action} action
    * @param {string=} message
    * @return {Element}
@@ -182,6 +229,8 @@
     cleanupResizer();
     updateBackground();
 
+
+
     resizeForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
   };
@@ -195,6 +244,7 @@
     evt.preventDefault();
 
     if (resizeFormIsValid()) {
+
       filterImage.src = currentResizer.exportImage().src;
 
       resizeForm.classList.add('invisible');
@@ -221,11 +271,20 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+
+    var selectedFilter = filterForm.querySelector('input[name="upload-filter"]:checked').value;
+
+
+    setCookieFun('filterInCookie', selectedFilter, exDate.toUTCString());
+    //document.cookie = 'filterInCookie' + '=' + selectedFilter + '; expires=' + exDate.toUTCString();
+
     cleanupResizer();
     updateBackground();
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
+
+    filterForm.submit();
   };
 
   /**
@@ -253,6 +312,35 @@
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
+
+// восстановеление кнопки
+  function backToBack() {
+    uploadFormFrw[0].removeAttribute('disabled');
+    uploadFormFrw[0].innerHTML = ' ';
+    uploadFormFrw[0].style.color = 'buttontext';
+    uploadFormFrw[0].style.background = 'rgba(255, 231, 83, 0.2)';
+    uploadFormFrw[0].style.backgroundImage = 'url("img/icon-arrow.png")';
+    uploadFormFrw[0].style.backgroundPosition = 'center';
+    uploadFormFrw[0].style.backgroundRepeat = 'no-repeat';
+  }
+
+  /**
+   *  Функиция записи в cookie
+   */
+  function setCookieFun(name, value, expires) {
+    document.cookie = name + '=' + value + '; expires=' + expires;
+  }
+
+
+  var selectedFilter = docCookies.getItem('filterInCookie');
+  if (selectedFilter) {
+    // лейбл
+    var savedRadio = filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilter + '"]');
+    savedRadio.setAttribute('checked', true);
+
+    // фильтр на картинку из куки
+    filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilter;
+  }
 
   cleanupResizer();
   updateBackground();
