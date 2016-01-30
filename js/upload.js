@@ -302,7 +302,7 @@
     uploadFormFrw[0].innerHTML = ' ';
     uploadFormFrw[0].style.color = 'buttontext';
     uploadFormFrw[0].style.background = 'rgba(255, 231, 83, 0.2)';
-    uploadFormFrw[0].style.backgroundImage = 'url("../67190-kekstagram-AD/img/icon-arrow.png")';
+    uploadFormFrw[0].style.backgroundImage = 'url("img/icon-arrow.png")';
     uploadFormFrw[0].style.backgroundPosition = 'center';
     uploadFormFrw[0].style.backgroundRepeat = 'no-repeat';
   }
