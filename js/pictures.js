@@ -27,27 +27,37 @@
     element.querySelector('.picture-comments').textContent = data.comments;
     element.querySelector('.picture-likes').textContent = data.likes;
 
-    element.querySelector('IMG').src = data.url;
+    var src = data.preview || data.url;
 
-//    var backgroundImage = new Image();
-  //  backgroundImage.src = data.url;
+    if (src) {
+      var backgroundImage = new Image();
 
-  //"likes": 100,
-  //"comments": 11,
-  //"url": "photos/26.mp4",   < src
-  //"preview": "photos/26.jpg",
-  //"date": "2016-01-06"
+      backgroundImage.onload = function() {
 
-/*
-    <a href="" class="picture">
-      <img src="" width="182" height="182">
-      <span class="picture-stats">
-        <span class="picture-stat picture-comments"></span>
-        <span class="picture-stat picture-likes"></span>
-      </span>
-    </a>
-*/
+
+        element.style.backgroundImage = 'url(\'' + src + '\')';
+        element.style.width = '182px';
+        element.style.height = '182px';
+        element.width = 182;
+        element.height = 182;
+        element.backgroundSize = '182px 182px'; // не работает устновка размеров
+
+      };
+      element.querySelector('IMG').src = '/' + src; //по этому хакнул ваш код
+
+      backgroundImage.onerror = function() {
+        element.classList.add('picture-load-failure');
+      };
+      backgroundImage.src = src;
+      backgroundImage.backgroundSize = '182px 182px';
+      backgroundImage.style.width = '182px';
+      backgroundImage.style.height = '182px';
+      backgroundImage.width = 182;
+      backgroundImage.height = 182;
+    }
+
     return element;
+
   }
 
 })();
