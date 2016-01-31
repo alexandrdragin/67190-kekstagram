@@ -332,14 +332,12 @@
   }
 
 
-  var selectedFilter = docCookies.getItem('filterInCookie');
-  if (selectedFilter) {
+  var selectedFilterCookie = docCookies.getItem('filterInCookie');
+  if (typeof (selectedFilterCookie) === 'string') {
     // лейбл
-    var savedRadio = filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilter + '"]');
-    savedRadio.setAttribute('checked', true);
-
+    filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilterCookie + '"]').checked = true;
     // фильтр на картинку из куки
-    filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilter;
+    filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilterCookie;
   }
 
   cleanupResizer();
