@@ -43,7 +43,7 @@
         element.backgroundSize = '182px 182px'; // не работает устновка размеров
 
       };
-      element.querySelector('IMG').src = '/' + src; //по этому хакнул ваш код
+      element.querySelector('IMG').src = src; //по этому хакнул ваш код
 
       backgroundImage.onerror = function() {
         element.classList.add('picture-load-failure');
