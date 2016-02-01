@@ -5,8 +5,6 @@ function getMessage (a, b) {
   // Если первый аргумент, a, имеет тип boolean, то:
   if (typeof a === "boolean") {
 
-    console.log("boolean");
-
     if (a == true) {
      return "Переданное GIF-изображение анимировано и содержит " + b + " кадров";
     }
@@ -38,21 +36,12 @@ function getMessage (a, b) {
   // Если оба аргумента массивы, то вернуть строку:
   if (typeof a === "object" && typeof b === "object") {
 
-    var square = 0;
-    var sumA = 0;
-    var sumB = 0;
-
-    for (var i = 0; i < a.length; i++) {
-      sumA += a[i]; //* b[i];
-    };
-
-    for (var i = 0; i < b.length; i++) {
-      sumB += b[i];
-    };
-
-    square = sumA * sumB;
-
-    console.log(square);
+  var square = 0;
+    if (a.length === b.length) {
+      for (var i = 0; i < a.length; i++) {
+        square += a[i] * b[i];
+      }
+    }
 
     //console.log("square =" square);
     return "Общая площадь артефактов сжатия: " + square + " пикселей";
