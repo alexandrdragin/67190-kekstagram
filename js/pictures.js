@@ -2,14 +2,17 @@
 
 (function() {
 
+  var contaner = document.querySelector('.pictures');
+
+  // появление блока с фильтрами
   var filtersForm = document.querySelector('form[class="filters hidden"]');
   filtersForm.className = 'filters';
 
-  var contaner = document.querySelector('.pictures');
   var loadedSomeShitFromServer = null;
 
   var nowFilter = 'filter-popular';
 
+//подвеска для фильтров
   var sortChecker = document.querySelectorAll('.filters-radio');
 
   for (var i = 0; i < sortChecker.length; i++) {
@@ -19,7 +22,6 @@
       setFilter(sortCheckerID);
     };
   }
-
 
   getSomeShit();
 
@@ -90,17 +92,16 @@
         nowFilter = 'filter-discussed';
         break;
       default:
-
     }
 
     renderPictures(sortedPictures);
   }
 
-
   function getElementFromTemplate(data) {
 
     var template = document.querySelector('#picture-template');
 
+// проверка браузера
     if ('content' in template) {
       var element = template.content.children[0].cloneNode(true);
     } else {
