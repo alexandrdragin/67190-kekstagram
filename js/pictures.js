@@ -8,12 +8,27 @@
   var contaner = document.querySelector('.pictures');
   var loadedSomeShitFromServer = null;
 
+  var nowFilter = 'filter-popular';
+
+  var sortChecker = document.querySelectorAll('.filters-radio');
+
+  for (var i = 0; i < sortChecker.length; i++) {
+    sortChecker[i].onclick = function(evt) {
+      console.log(evt.target.id);
+      var sortCheckerID = evt.target.id;
+      setFilter(sortCheckerID);
+    };
+  }
+
+
   getSomeShit();
 
 /**
   * Загрузка данных
   */
   function getSomeShit() {
+    contaner.classList.add('pictures-loading');
+
     var xhr = new XMLHttpRequest();
 
     xhr.open('get', 'http://o0.github.io/assets/json/pictures.json');
@@ -26,6 +41,10 @@
       renderPictures(loadedSomeShitFromServer);
     };
 
+    xhr.onerror = function() {
+      contaner.classList.add('pictures-failure');
+    };
+
     xhr.send();
   }
 
@@ -33,11 +52,50 @@
     * Отрисовка данных
     */
   function renderPictures(pictures) {
+    contaner.innerHTML = '';
+
     pictures.forEach(function(pictureData) {
       var element = getElementFromTemplate(pictureData);
       contaner.appendChild(element);
     });
+    contaner.classList.remove('pictures-loading');
   }
+
+  function setFilter(id) {
+    if (nowFilter === id) {
+      return;
+    }
+
+    var sortedPictures = loadedSomeShitFromServer.slice(0); //copy
+
+    switch (id) {
+      case 'filter-new':
+        sortedPictures = sortedPictures.sort(function(a, b) {
+          return b.date - a.date;
+        });
+        nowFilter = 'filter-new';
+        break;
+
+      case 'filter-popular':
+        sortedPictures = sortedPictures.sort(function(a, b) {
+          return b.likes - a.likes;
+        });
+        nowFilter = 'filter-popular';
+        break;
+
+      case 'filter-discussed':
+        sortedPictures = sortedPictures.sort(function(a, b) {
+          return b.comments - a.comments;
+        });
+        nowFilter = 'filter-discussed';
+        break;
+      default:
+
+    }
+
+    renderPictures(sortedPictures);
+  }
+
 
   function getElementFromTemplate(data) {
 
