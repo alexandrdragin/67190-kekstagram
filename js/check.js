@@ -18,8 +18,7 @@ function getMessage (a, b) {
 
     return ("Переданное SVG-изображение содержит " + a + " объектов и " + (b * 4) + " аттрибутов");
   }
-
-
+  
   // Если первый аргумент массив, то вернуть строку:
   if (typeof a === "object" && typeof b === "undefined") {
 
@@ -43,7 +42,6 @@ function getMessage (a, b) {
       }
     }
 
-    //console.log("square =" square);
     return "Общая площадь артефактов сжатия: " + square + " пикселей";
   };
 
