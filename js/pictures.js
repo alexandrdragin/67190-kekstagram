@@ -9,11 +9,14 @@
   filtersForm.className = 'filters';
 
   var loadedSomeShitFromServer = null;
+  // var filteredPicturesNOW;
+//  var currentPage = 0;
+//  var PAGE_SIZE = 9; // педж сайз
 
   var nowFilter = 'filter-popular';
 
 //подвеска для фильтров
-  var sortChecker = document.querySelectorAll('.filters-radio');
+  var sortChecker = document.querySelectorAll('.filters-radio');//-all
 
   for (var i = 0; i < sortChecker.length; i++) {
     sortChecker[i].onclick = function(evt) {
@@ -23,6 +26,23 @@
     };
   }
 
+//он лоад?
+  //window.addEventListener('scroll', function(evt) {
+// var footerCord = document.querySelector('footer').getBoundingClientRect();
+// var viewportsize = window.innerHeight;
+//
+// if (footerCord.bottom - viewportsize <= )
+// if (currentPage)
+//
+//})
+//
+// var from = pageNumber * PAGE_SIZE
+//
+//
+//
+//
+//
+//
   getSomeShit();
 
 /**
@@ -53,9 +73,12 @@
   /**
     * Отрисовка данных
     */
-  function renderPictures(pictures) {
+  function renderPictures(pictures) { //, pageNumber, replace)
     contaner.innerHTML = '';
 
+//if (replace == true;
+
+// нужно сделать сброс номера страници при фильтрации
     pictures.forEach(function(pictureData) {
       var element = getElementFromTemplate(pictureData);
       contaner.appendChild(element);
@@ -69,7 +92,7 @@
     }
 
     var sortedPictures = loadedSomeShitFromServer.slice(0); //copy
-
+//filteredPicturesNOW
     switch (id) {
       case 'filter-new':
         sortedPictures = sortedPictures.sort(function(a, b) {
