@@ -8,10 +8,15 @@
   var filtersForm = document.querySelector('form[class="filters hidden"]');
   filtersForm.className = 'filters';
 
+  /**
+   * хранит изначальное состояние данных ссервера
+   * @type {Array.<Object>}
+   */
   var loadedSomeShitFromServer = null;
-  // var filteredPicturesNOW;
-//  var currentPage = 0;
-//  var PAGE_SIZE = 9; // педж сайз
+
+  var sortedPictures = null;
+  var currentPage = 0;
+  var PAGE_SIZE = 12; // педж сайз
 
   var nowFilter = 'filter-popular';
 
@@ -27,22 +32,19 @@
   }
 
 //он лоад?
-  //window.addEventListener('scroll', function(evt) {
-// var footerCord = document.querySelector('footer').getBoundingClientRect();
-// var viewportsize = window.innerHeight;
-//
-// if (footerCord.bottom - viewportsize <= )
-// if (currentPage)
-//
-//})
-//
-// var from = pageNumber * PAGE_SIZE
-//
-//
-//
-//
-//
-//
+  window.addEventListener('scroll', function() {
+
+    var viewportSize = window.innerHeight; // размер экрана
+    var totalHeight = document.body.clientHeight; // страница целиком
+    var topBorderPage = window.scrollY;
+    var PILLOW = 100;
+    if (totalHeight < viewportSize + topBorderPage + PILLOW) {
+      var addScrollData = sortedPictures || loadedSomeShitFromServer;
+      renderPictures(addScrollData, ++currentPage, false);
+    }
+
+  });
+
   getSomeShit();
 
 /**
@@ -60,7 +62,7 @@
       var firstShit = evt.target.response;
       loadedSomeShitFromServer = JSON.parse(firstShit);
 
-      renderPictures(loadedSomeShitFromServer);
+      renderPictures(loadedSomeShitFromServer, 0);
     };
 
     xhr.onerror = function() {
@@ -71,15 +73,28 @@
   }
 
   /**
-    * Отрисовка данных
-    */
-  function renderPictures(pictures) { //, pageNumber, replace)
-    contaner.innerHTML = '';
+   * отрисовка список фотографий
+   * @param {Array.<Object>} reviewsToRender
+   * @param {number} pageNumber
+   * @param {boolean=} replace
+   */
+  function renderPictures(pictures, pageNumber, replace) {
 
-//if (replace == true;
+    // проверям тип переменной + тернарный оператор(что делать если ? выполняться: нет;)
+    replace = typeof replace !== 'undefined' ? replace : true;
+    // нормализация документа(горантирует содержание)
+    pageNumber = pageNumber || 0;
+
+    if (replace) {
+      contaner.innerHTML = '';
+    }
+//
+    var from = pageNumber * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
+    var numberPicutersOnPage = pictures.slice(from, to);
 
 // нужно сделать сброс номера страници при фильтрации
-    pictures.forEach(function(pictureData) {
+    numberPicutersOnPage.forEach(function(pictureData) {
       var element = getElementFromTemplate(pictureData);
       contaner.appendChild(element);
     });
@@ -87,11 +102,12 @@
   }
 
   function setFilter(id) {
+    currentPage = 0;
     if (nowFilter === id) {
       return;
     }
 
-    var sortedPictures = loadedSomeShitFromServer.slice(0); //copy
+    sortedPictures = loadedSomeShitFromServer.slice(0); //copy
 //filteredPicturesNOW
     switch (id) {
       case 'filter-new':
@@ -117,7 +133,7 @@
       default:
     }
 
-    renderPictures(sortedPictures);
+    renderPictures(sortedPictures, 0, true);
   }
 
   function getElementFromTemplate(data) {
