@@ -31,18 +31,22 @@
     };
   }
 
+  var trottle;
+
 //он лоад?
   window.addEventListener('scroll', function() {
+    clearTimeout(trottle); // пока скролю функция на паузе
+    trottle = setTimeout(function() {
 
-    var viewportSize = window.innerHeight; // размер экрана
-    var totalHeight = document.body.clientHeight; // страница целиком
-    var topBorderPage = window.scrollY;
-    var PILLOW = 100;
-    if (totalHeight < viewportSize + topBorderPage + PILLOW) {
-      var addScrollData = sortedPictures || loadedSomeShitFromServer;
-      renderPictures(addScrollData, ++currentPage, false);
-    }
-
+      var viewportSize = window.innerHeight; // размер экрана
+      var totalHeight = document.body.clientHeight; // страница целиком
+      var topBorderPage = window.scrollY;// докуда проскролил
+      var PILLOW = 100;
+      if (totalHeight < viewportSize + topBorderPage + PILLOW) {
+        var addScrollData = sortedPictures || loadedSomeShitFromServer;
+        renderPictures(addScrollData, ++currentPage, false);
+      }
+    }, 500);
   });
 
   getSomeShit();
@@ -63,6 +67,16 @@
       loadedSomeShitFromServer = JSON.parse(firstShit);
 
       renderPictures(loadedSomeShitFromServer, 0);
+
+      var largeScreenSize = 1367;
+
+      if (document.body.clientWidth > largeScreenSize) {
+        var addScrollData = sortedPictures || loadedSomeShitFromServer;
+        renderPictures(addScrollData, ++currentPage, false);
+      } // еще есть кейс когда после 1 загрузки растянули окно
+        // знаю как сделать но чет лень()
+        // нужно повесить событие на он чаниж виндоу с тротлм
+        // и если currentPage = 0 тогда еще подгруз.
     };
 
     xhr.onerror = function() {
@@ -73,7 +87,7 @@
   }
 
   /**
-   * отрисовка список фотографий
+   * отрисовка списокf фотографий
    * @param {Array.<Object>} reviewsToRender
    * @param {number} pageNumber
    * @param {boolean=} replace
@@ -88,12 +102,11 @@
     if (replace) {
       contaner.innerHTML = '';
     }
-//
+    //
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
-// нужно сделать сброс номера страници при фильтрации
     numberPicutersOnPage.forEach(function(pictureData) {
       var element = getElementFromTemplate(pictureData);
       contaner.appendChild(element);
@@ -108,7 +121,7 @@
     }
 
     sortedPictures = loadedSomeShitFromServer.slice(0); //copy
-//filteredPicturesNOW
+
     switch (id) {
       case 'filter-new':
         sortedPictures = sortedPictures.sort(function(a, b) {
@@ -173,13 +186,6 @@
       };
 
       backgroundImage.src = src;
-      /*
-      backgroundImage.backgroundSize = '182px 182px';
-      backgroundImage.style.width = '182px';
-      backgroundImage.style.height = '182px';
-      backgroundImage.width = 182;
-      backgroundImage.height = 182;
-      */
     }
 
     return element;
