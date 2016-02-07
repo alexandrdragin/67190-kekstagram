@@ -153,10 +153,11 @@
     var template = document.querySelector('#picture-template');
 
 // проверка браузера
+    var element;
     if ('content' in template) {
-      var element = template.content.children[0].cloneNode(true);
+      element = template.content.children[0].cloneNode(true);
     } else {
-      var element = template.children[0].cloneNode(true);
+      element = template.children[0].cloneNode(true);
     }
 
     element.querySelector('.picture-comments').textContent = data.comments;
