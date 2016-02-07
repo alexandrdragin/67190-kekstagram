@@ -31,7 +31,6 @@
 
   var trottle;
 
-//он лоад?
   window.addEventListener('scroll', function() {
     clearTimeout(trottle); // пока скролю функция на паузе
     trottle = setTimeout(function() {
@@ -158,6 +157,9 @@
       element = template.content.children[0].cloneNode(true);
     } else {
       element = template.children[0].cloneNode(true);
+    }
+    if (navigator.appName === 'Microsoft Internet Explorer' || 'Edge') {
+      element = document.querySelector('template').content.childNodes[1].cloneNode(true);
     }
 
     element.querySelector('.picture-comments').textContent = data.comments;
