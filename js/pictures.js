@@ -18,18 +18,16 @@
   var currentPage = 0;
   var PAGE_SIZE = 12; // педж сайз
 
-  var nowFilter = 'filter-popular';
+  var nowFilter = 'filter-new';
 
 //подвеска для фильтров
-  var sortChecker = document.querySelectorAll('.filters-radio');//-all
-
-  for (var i = 0; i < sortChecker.length; i++) {
-    sortChecker[i].onclick = function(evt) {
-      console.log(evt.target.id);
-      var sortCheckerID = evt.target.id;
-      setFilter(sortCheckerID);
-    };
-  }
+  var sortChecker = document.querySelector('.filters');
+  sortChecker.addEventListener('click', function(evt) {
+    var clickedSortButton = evt.target;
+    if (clickedSortButton.classList.contains('filters-radio')) {
+      setFilter(clickedSortButton.id);
+    }
+  });
 
   var trottle;
 
@@ -67,6 +65,7 @@
       loadedSomeShitFromServer = JSON.parse(firstShit);
 
       renderPictures(loadedSomeShitFromServer, 0);
+      sortChecker.querySelector('#filter-new').checked = true;
 
       var largeScreenSize = 1367;
 
