@@ -41,12 +41,13 @@
    */
   var currentResizer;
 
+  var resizeControls = document.querySelector('.upload-resize-controls');
   //слева
-  var resizeX = document.getElementById('resize-x');
+  var resizeX = resizeControls.querySelector('input[name="x"]');
   //сверху
-  var resizeY = document.getElementById('resize-y');
+  var resizeY = resizeControls.getElementById('resize-y');
   //сторона
-  var resizeS = document.getElementById('resize-size');
+  var resizeS = resizeControls.getElementById('resize-size');
 
   resizeX.required = true;
   resizeY.required = true;
@@ -229,8 +230,6 @@
     cleanupResizer();
     updateBackground();
 
-
-
     resizeForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
   };
@@ -271,9 +270,7 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
-
     var selectedFilter = filterForm.querySelector('input[name="upload-filter"]:checked').value;
-
 
     setCookieFun('filterInCookie', selectedFilter, exDate.toUTCString());
     //document.cookie = 'filterInCookie' + '=' + selectedFilter + '; expires=' + exDate.toUTCString();
@@ -331,7 +328,6 @@
     document.cookie = name + '=' + value + '; expires=' + expires;
   }
 
-
   var selectedFilterCookie = docCookies.getItem('filterInCookie');
   if (typeof (selectedFilterCookie) === 'string') {
     // лейбл
@@ -339,7 +335,17 @@
     // фильтр на картинку из куки
     filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilterCookie;
   }
+/////////////
+  window.addEventListener('resizerchange');
+  currentResizer.getConstraint();
+  resizeControls.addEventListener('temp');
 
+  currentResizer.setConstraint(20, 30, 40);
+
+  resizeX.value = 0;
+  resizeY.value = 0;
+  resizeS.value = 0;
+///////////
   cleanupResizer();
   updateBackground();
 })();
