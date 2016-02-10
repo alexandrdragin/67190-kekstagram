@@ -40,14 +40,17 @@
    * @type {Resizer}
    */
   var currentResizer;
+  var imageHeight;
+  var imageWidth;
+  var imageConstraint;
 
   var resizeControls = document.querySelector('.upload-resize-controls');
   //слева
   var resizeX = resizeControls.querySelector('input[name="x"]');
   //сверху
-  var resizeY = resizeControls.getElementById('resize-y');
+  var resizeY = resizeControls.querySelector('input[name="y"]');
   //сторона
-  var resizeS = resizeControls.getElementById('resize-size');
+  var resizeS = resizeControls.querySelector('input[name="size"]');
 
   resizeX.required = true;
   resizeY.required = true;
@@ -335,16 +338,75 @@
     // фильтр на картинку из куки
     filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilterCookie;
   }
-/////////////
-  window.addEventListener('resizerchange');
-  currentResizer.getConstraint();
-  resizeControls.addEventListener('temp');
 
-  currentResizer.setConstraint(20, 30, 40);
+/////////////module6-task2
 
-  resizeX.value = 0;
-  resizeY.value = 0;
-  resizeS.value = 0;
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  window.addEventListener('imagecreated', function() {
+
+    imageConstraint = currentResizer.getConstraint();
+    imageHeight = currentResizer.getImageSizeHeight();
+    imageWidth = currentResizer.getImageSizeWidth();
+    resizeS.value = imageConstraint.side;
+
+    document.querySelector('.resize-image-preview').classList.add('invisible');
+
+    resizeX.max = Math.max(imageWidth - resizeS.value, 0);
+    resizeY.max = Math.max(imageHeight - resizeS.value, 0);
+    resizeS.max = Math.min(imageWidth, imageHeight);
+
+    resizeX.min = 0;
+    resizeY.min = 0;
+    resizeS.min = 50;
+
+    resizeX.value = Math.floor(imageConstraint.x);
+    resizeY.value = Math.floor(imageConstraint.y);
+    resizeS.value = Math.floor(imageConstraint.side);
+  });
+
+  window.addEventListener('resizerchange', function() {
+debugger;
+    imageConstraint = currentResizer.getConstraint();
+    var x = clamp(Math.floor(imageConstraint.x), Math.floor(resizeX.min), Math.floor(resizeX.max));
+    var y = clamp(Math.floor(imageConstraint.y), Math.floor(resizeY.min), Math.floor(resizeY.max));
+    resizeX.value = x;
+    resizeY.value = y;
+    if (imageConstraint.x !== x || imageConstraint.y !== y) {
+      currentResizer.setConstraint(x, y, Number(resizeS.value));
+    }
+  });
+
+  resizeS.onchange = function() {
+    resizeS.value = clamp(Number(resizeS.value), Number(resizeS.min), Number(resizeS.max));
+    imageConstraint = currentResizer.getConstraint();
+    var sideDiff = Math.floor((imageConstraint.side - Number(resizeS.value)) / 2);
+    currentResizer.setConstraint(imageConstraint.x + sideDiff, imageConstraint.y + sideDiff, Number(resizeS.value));
+
+    var picCanvas = document.querySelector('canvas');
+    resizeX.max = Math.max(imageWidth - resizeS.value, 0);
+    resizeY.max = Math.max(imageHeight - resizeS.value, 0);
+    resizeS.max = Math.min(picCanvas.width, picCanvas.height);
+
+    resizeS.value = Math.floor(imageConstraint.side);
+
+    resizeX.value = Math.floor(imageConstraint.x);
+    resizeY.value = Math.floor(imageConstraint.y);
+  };
+
+  resizeX.onchange = function() {
+    resizeX.value = clamp(Number(resizeX.value), Number(resizeX.min), Number(resizeX.max));
+    currentResizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
+  };
+
+  resizeY.onchange = function() {
+    resizeY.value = clamp(Number(resizeY.value), Number(resizeY.min), Number(resizeY.max));
+    currentResizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
+  };
+
+
 ///////////
   cleanupResizer();
   updateBackground();
