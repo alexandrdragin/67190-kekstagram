@@ -39,6 +39,7 @@
    * Объект, который занимается кадрированием изображения.
    * @type {Resizer}
    */
+  var resizer;
   var currentResizer;
   var imageHeight;
   var imageWidth;
@@ -347,9 +348,12 @@
 
   window.addEventListener('imagecreated', function() {
 
-    imageConstraint = currentResizer.getConstraint();
-    imageHeight = currentResizer.getImageSizeHeight();
-    imageWidth = currentResizer.getImageSizeWidth();
+    imageConstraint = resizer.getConstraint();
+    console.log(imageConstraint);
+    imageHeight = resizer.getImageSizeHeight();
+    console.log(imageHeight);
+    imageWidth = resizer.getImageSizeWidth();
+    console.log(imageWidth);
     resizeS.value = imageConstraint.side;
 
     document.querySelector('.resize-image-preview').classList.add('invisible');
@@ -368,22 +372,23 @@
   });
 
   window.addEventListener('resizerchange', function() {
-debugger;
-    imageConstraint = currentResizer.getConstraint();
-    var x = clamp(Math.floor(imageConstraint.x), Math.floor(resizeX.min), Math.floor(resizeX.max));
-    var y = clamp(Math.floor(imageConstraint.y), Math.floor(resizeY.min), Math.floor(resizeY.max));
+//clamp(Math.floor(imageConstraint.x), Math.floor(resizeX.min), Math.floor(resizeX.max))
+//clamp(Math.floor(imageConstraint.y), Math.floor(resizeY.min), Math.floor(resizeY.max))
+    imageConstraint = resizer.getConstraint();
+    var x = (imageConstraint.x);
+    var y = (imageConstraint.y);
     resizeX.value = x;
     resizeY.value = y;
     if (imageConstraint.x !== x || imageConstraint.y !== y) {
-      currentResizer.setConstraint(x, y, Number(resizeS.value));
+      resizer.setConstraint(x, y, Number(resizeS.value));
     }
   });
 
   resizeS.onchange = function() {
     resizeS.value = clamp(Number(resizeS.value), Number(resizeS.min), Number(resizeS.max));
-    imageConstraint = currentResizer.getConstraint();
+    imageConstraint = resizer.getConstraint();
     var sideDiff = Math.floor((imageConstraint.side - Number(resizeS.value)) / 2);
-    currentResizer.setConstraint(imageConstraint.x + sideDiff, imageConstraint.y + sideDiff, Number(resizeS.value));
+    resizer.setConstraint(imageConstraint.x + sideDiff, imageConstraint.y + sideDiff, Number(resizeS.value));
 
     var picCanvas = document.querySelector('canvas');
     resizeX.max = Math.max(imageWidth - resizeS.value, 0);
@@ -398,12 +403,12 @@ debugger;
 
   resizeX.onchange = function() {
     resizeX.value = clamp(Number(resizeX.value), Number(resizeX.min), Number(resizeX.max));
-    currentResizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
+    resizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
   };
 
   resizeY.onchange = function() {
     resizeY.value = clamp(Number(resizeY.value), Number(resizeY.min), Number(resizeY.max));
-    currentResizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
+    resizer.setConstraint(Number(resizeX.value), Number(resizeY.value), Number(resizeS.value));
   };
 
 
