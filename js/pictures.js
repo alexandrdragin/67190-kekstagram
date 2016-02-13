@@ -154,13 +154,16 @@
 // проверка браузера
     var element;
     if ('content' in template) {
-      element = template.content.children[0].cloneNode(true);
+      element = template.content.querySelector('.picture').cloneNode(true);
     } else {
-      element = template.children[0].cloneNode(true);
+      element = template.querySelector('.picture').cloneNode(true);
     }
+    /* варианты кросбраузености
     if (navigator.appName === 'Microsoft Internet Explorer' || 'Edge') {
-      element = document.querySelector('template').content.childNodes[1].cloneNode(true);
+      element = template.content.children[0].cloneNode(true);
+      element = template.content.childNodes[1].cloneNode(true);
     }
+    */
 
     element.querySelector('.picture-comments').textContent = data.comments;
     element.querySelector('.picture-likes').textContent = data.likes;
