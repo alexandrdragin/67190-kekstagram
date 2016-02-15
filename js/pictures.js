@@ -1,3 +1,5 @@
+/* global Photo: true */
+
 'use strict';
 
 (function() {
@@ -106,8 +108,9 @@
     var numberPicutersOnPage = pictures.slice(from, to);
 
     numberPicutersOnPage.forEach(function(pictureData) {
-      var element = getElementFromTemplate(pictureData);
-      contaner.appendChild(element);
+      var photoElement = new Photo(pictureData);
+      photoElement.render();
+      contaner.appendChild(photoElement.element);
     });
     contaner.classList.remove('pictures-loading');
   }
@@ -145,56 +148,6 @@
     }
 
     renderPictures(sortedPictures, 0, true);
-  }
-
-  function getElementFromTemplate(data) {
-
-    var template = document.querySelector('#picture-template');
-
-// проверка браузера
-    var element;
-    if ('content' in template) {
-      element = template.content.querySelector('.picture').cloneNode(true);
-    } else {
-      element = template.querySelector('.picture').cloneNode(true);
-    }
-    /* варианты кросбраузености
-    if (navigator.appName === 'Microsoft Internet Explorer' || 'Edge') {
-      element = template.content.children[0].cloneNode(true);
-      element = template.content.childNodes[1].cloneNode(true);
-    }
-    */
-
-    element.querySelector('.picture-comments').textContent = data.comments;
-    element.querySelector('.picture-likes').textContent = data.likes;
-
-    var src = data.preview || data.url;
-
-    if (src) {
-      var backgroundImage = new Image();
-
-      backgroundImage.onload = function() {
-
-        element.style.backgroundImage = 'url(\'' + src + '\')';
-/*
-        element.style.width = '182px';
-        element.style.height = '182px';
-        element.width = 182;
-        element.height = 182;
-        element.backgroundSize = '182px 182px'; // не работает устновка размеров
-*/
-      };
-      element.querySelector('IMG').src = src; //по этому хакнул ваш код
-      //element.replaceChild;
-      backgroundImage.onerror = function() {
-        element.classList.add('picture-load-failure');
-      };
-
-      backgroundImage.src = src;
-    }
-
-    return element;
-
   }
 
 })();
