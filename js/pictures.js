@@ -1,4 +1,4 @@
-/* global Photo: true */
+/* global Photo, Gallery: true */
 
 'use strict';
 
@@ -19,6 +19,8 @@
   var sortedPictures = null;
   var currentPage = 0;
   var PAGE_SIZE = 12; // педж сайз
+
+  var gallery = new Gallery();
 
   var nowFilter = 'filter-new';
 
@@ -100,7 +102,11 @@
     pageNumber = pageNumber || 0;
 
     if (replace) {
-      contaner.innerHTML = '';
+      var allPicturesNodes = contaner.querySelectorAll('.picture');
+      [].forEach.call(allPicturesNodes, function(elem) {
+        elem.removeEventListener('click', _onClick);
+        contaner.removeChild(elem);
+      });
     }
     //
     var from = pageNumber * PAGE_SIZE;
@@ -111,8 +117,15 @@
       var photoElement = new Photo(pictureData);
       photoElement.render();
       contaner.appendChild(photoElement.element);
+
+      photoElement.element.addEventListener('click', _onClick);
     });
     contaner.classList.remove('pictures-loading');
+  }
+
+  function _onClick(evt) {
+    evt.preventDefault();
+    gallery.show();
   }
 
   function setFilter(id) {

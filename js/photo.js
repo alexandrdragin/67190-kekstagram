@@ -35,19 +35,16 @@
       backgroundImage.onload = function() {
 
         this.element.style.backgroundImage = 'url(\'' + src + '\')';
-/*
-        element.style.width = '182px';
-        element.style.height = '182px';
-        element.width = 182;
-        element.height = 182;
-        element.backgroundSize = '182px 182px'; // не работает устновка размеров
-*/
-      };
-      //this.element.querySelector('IMG').src = src; //по этому хакнул ваш код
-      //element.replaceChild;
+
+        this.element.style.width = '182px';
+        this.element.style.height = '182px';
+
+      }.bind(this);
+      this.element.querySelector('IMG').src = src; // ниже
+      //element.replaceChild; короч нужно было заменить но я не понял
       backgroundImage.onerror = function() {
         this.element.classList.add('picture-load-failure');
-      };
+      }.bind(this);
 
       backgroundImage.src = src;
     }
