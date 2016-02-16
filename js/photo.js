@@ -11,7 +11,6 @@
     var template = document.querySelector('#picture-template');
 
 // проверка браузера
-    var element;
     if ('content' in template) {
       this.element = template.content.querySelector('.picture').cloneNode(true);
     } else {
