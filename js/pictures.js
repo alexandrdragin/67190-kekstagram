@@ -18,7 +18,10 @@
 
   var sortedPictures = null;
   var currentPage = 0;
-  var PAGE_SIZE = 12; // педж сайз
+  var PAGE_SIZE = 12;
+
+  var largeScreenSize = 1367; // размер широкого экрана
+  var doThisShitOneTime = 1;
 
   var gallery = new Gallery();
 
@@ -70,12 +73,7 @@
       renderPictures(loadedSomeShitFromServer, 0);
       sortChecker.querySelector('#filter-new').checked = true;
 
-      var largeScreenSize = 1367;
-
-      if (document.body.clientWidth > largeScreenSize) {
-        var addScrollData = sortedPictures || loadedSomeShitFromServer;
-        renderPictures(addScrollData, ++currentPage, false);
-      } // еще есть кейс когда после 1 загрузки растянули окно
+        // еще есть кейс когда после 1 загрузки растянули окно
         // знаю как сделать но чет лень()
         // нужно повесить событие на он чаниж виндоу с тротлм
         // и если currentPage = 0 тогда еще подгруз.
@@ -108,7 +106,12 @@
         contaner.removeChild(elem);
       });
     }
-    //
+
+    if (document.body.clientWidth > largeScreenSize && pageNumber === 0 && doThisShitOneTime === 1) {
+      PAGE_SIZE = PAGE_SIZE + 8;
+      doThisShitOneTime = 0;
+    }
+
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
