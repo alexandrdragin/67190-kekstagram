@@ -1,3 +1,5 @@
+/* global Photo, Gallery: true */
+
 'use strict';
 
 (function() {
@@ -16,7 +18,12 @@
 
   var sortedPictures = null;
   var currentPage = 0;
-  var PAGE_SIZE = 12; // педж сайз
+  var PAGE_SIZE = 12;
+
+  var largeScreenSize = 1367; // размер широкого экрана
+  var doThisShitOneTime = 1;
+
+  var gallery = new Gallery();
 
   var nowFilter = 'filter-new';
 
@@ -66,12 +73,7 @@
       renderPictures(loadedSomeShitFromServer, 0);
       sortChecker.querySelector('#filter-new').checked = true;
 
-      var largeScreenSize = 1367;
-
-      if (document.body.clientWidth > largeScreenSize) {
-        var addScrollData = sortedPictures || loadedSomeShitFromServer;
-        renderPictures(addScrollData, ++currentPage, false);
-      } // еще есть кейс когда после 1 загрузки растянули окно
+        // еще есть кейс когда после 1 загрузки растянули окно
         // знаю как сделать но чет лень()
         // нужно повесить событие на он чаниж виндоу с тротлм
         // и если currentPage = 0 тогда еще подгруз.
@@ -98,18 +100,35 @@
     pageNumber = pageNumber || 0;
 
     if (replace) {
-      contaner.innerHTML = '';
+      var allPicturesNodes = contaner.querySelectorAll('.picture');
+      [].forEach.call(allPicturesNodes, function(elem) {
+        elem.removeEventListener('click', _onClick);
+        contaner.removeChild(elem);
+      });
     }
-    //
+
+    if (document.body.clientWidth > largeScreenSize && pageNumber === 0 && doThisShitOneTime === 1) {
+      PAGE_SIZE = PAGE_SIZE + 8;
+      doThisShitOneTime = 0;
+    }
+
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
     numberPicutersOnPage.forEach(function(pictureData) {
-      var element = getElementFromTemplate(pictureData);
-      contaner.appendChild(element);
+      var photoElement = new Photo(pictureData);
+      photoElement.render();
+      contaner.appendChild(photoElement.element);
+
+      photoElement.element.addEventListener('click', _onClick);
     });
     contaner.classList.remove('pictures-loading');
+  }
+
+  function _onClick(evt) {
+    evt.preventDefault();
+    gallery.show();
   }
 
   function setFilter(id) {
@@ -145,56 +164,6 @@
     }
 
     renderPictures(sortedPictures, 0, true);
-  }
-
-  function getElementFromTemplate(data) {
-
-    var template = document.querySelector('#picture-template');
-
-// проверка браузера
-    var element;
-    if ('content' in template) {
-      element = template.content.querySelector('.picture').cloneNode(true);
-    } else {
-      element = template.querySelector('.picture').cloneNode(true);
-    }
-    /* варианты кросбраузености
-    if (navigator.appName === 'Microsoft Internet Explorer' || 'Edge') {
-      element = template.content.children[0].cloneNode(true);
-      element = template.content.childNodes[1].cloneNode(true);
-    }
-    */
-
-    element.querySelector('.picture-comments').textContent = data.comments;
-    element.querySelector('.picture-likes').textContent = data.likes;
-
-    var src = data.preview || data.url;
-
-    if (src) {
-      var backgroundImage = new Image();
-
-      backgroundImage.onload = function() {
-
-        element.style.backgroundImage = 'url(\'' + src + '\')';
-/*
-        element.style.width = '182px';
-        element.style.height = '182px';
-        element.width = 182;
-        element.height = 182;
-        element.backgroundSize = '182px 182px'; // не работает устновка размеров
-*/
-      };
-      element.querySelector('IMG').src = src; //по этому хакнул ваш код
-      //element.replaceChild;
-      backgroundImage.onerror = function() {
-        element.classList.add('picture-load-failure');
-      };
-
-      backgroundImage.src = src;
-    }
-
-    return element;
-
   }
 
 })();
