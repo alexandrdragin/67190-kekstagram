@@ -33,8 +33,8 @@
 
       backgroundImage.onload = function() {
 
-        this.element.style.backgroundImage = 'url(\'' + src + '\')';
-
+        //this.element.style.backgroundImage = 'url(\'' + src + '\')';
+        //this.element.src = src;
         this.element.style.width = '182px';
         this.element.style.height = '182px';
 
