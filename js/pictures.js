@@ -15,7 +15,7 @@
    * @type {Array.<Object>}
    */
   var loadedSomeShitFromServer = null;
-                                        //var createdObjectPhoto = []
+  var nowCreatedObjectPhoto = [];  //обьекты компанеты
   var sortedPictures = null;
   var currentPage = 0;
   var PAGE_SIZE = 12;
@@ -100,11 +100,12 @@
     pageNumber = pageNumber || 0;
 
     if (replace) {
-      var allPicturesNodes = contaner.querySelectorAll('.picture');/// удалить
-      [].forEach.call(allPicturesNodes, function(elem) {
-        elem.removeEventListener('click', _onClick);
-        contaner.removeChild(elem);             //while .shift
-      });
+      var elem;
+      while ((elem = nowCreatedObjectPhoto.shift())) { // уничтожение по 1
+        contaner.removeChild(elem.element);
+        elem.onClick = null;
+        elem.remove();
+      }
     }
 
     if (document.body.clientWidth > largeScreenSize && pageNumber === 0 && doThisShitOneTime === 1) {
@@ -116,20 +117,33 @@
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
-    numberPicutersOnPage.forEach(function(pictureData) {   // concat(массив.map)
+    //numberPicutersOnPage.forEach(function(pictureData) {
+      //var photoElement = new Photo(pictureData);
+      //photoElement.render();
+      //contaner.appendChild(photoElement.element);
+
+      //котатинация массивов скеиванием
+    nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
       var photoElement = new Photo(pictureData);
       photoElement.render();
       contaner.appendChild(photoElement.element);
 
-      photoElement.element.addEventListener('click', _onClick);
-    });
+      //photoElement.element.addEventListener('click', _onClick);
+
+      photoElement.onClick = function() {
+        gallery.data = photoElement._data;
+        gallery.show();
+      };
+
+      return photoElement;
+    }));
     contaner.classList.remove('pictures-loading');
   }
 
-  function _onClick(evt) {
-    evt.preventDefault();
-    gallery.show();
-  }
+//  function _onClick(evt) {
+//    evt.preventDefault();
+//    gallery.show();
+//  }
 
   function setFilter(id) {
     currentPage = 0;

@@ -4,6 +4,7 @@
 
   function Photo(data) {
     this._data = data;
+    this.onPhotoClick = this.onPhotoClick.bind(this);
   }
 
   Photo.prototype.render = function() {
@@ -37,17 +38,47 @@
         //this.element.src = src;
         this.element.style.width = '182px';
         this.element.style.height = '182px';
-
       }.bind(this);
+
       this.element.querySelector('IMG').src = src; // ниже
       //element.replaceChild; короч нужно было заменить но я не понял
+
       backgroundImage.onerror = function() {
         this.element.classList.add('picture-load-failure');
       }.bind(this);
 
       backgroundImage.src = src;
+
+      this.element.addEventListener('click', this.onPhotoClick);
     }
 
   };
+
+  Photo.prototype.onClick = null;
+
+  Photo.prototype.onPhotoClick = function(evt) {
+    evt.preventDefault();
+    if (
+      this.element.classList.contains('picture') &&
+      !this.element.classList.contains('picture-load-failure')
+    ) {
+      if (typeof this.onClick === 'function') {
+        this.onClick();
+      }
+    }
+  };
+
+  Photo.prototype.remove = function() {
+    this.element.removeEventListener('click', this._onClick);
+  };
+
+  Photo.prototype.setData = function(data) {
+    this._data = data;
+  };
+
+  Photo.prototype.getData = function() {
+    return this._data;
+  };
+
   window.Photo = Photo;
 })();
