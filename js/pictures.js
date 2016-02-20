@@ -73,10 +73,6 @@
       renderPictures(loadedSomeShitFromServer, 0);
       sortChecker.querySelector('#filter-new').checked = true;
 
-        // еще есть кейс когда после 1 загрузки растянули окно
-        // знаю как сделать но чет лень()
-        // нужно повесить событие на он чаниж виндоу с тротлм
-        // и если currentPage = 0 тогда еще подгруз.
     };
 
     xhr.onerror = function() {
@@ -117,14 +113,10 @@
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
-    //numberPicutersOnPage.forEach(function(pictureData) {
-      //var photoElement = new Photo(pictureData);
-      //photoElement.render();
-      //contaner.appendChild(photoElement.element);
-
-      //котатинация массивов скеиванием
+      //конкатинация массивов скеиванием
     nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
       var photoElement = new Photo(pictureData);
+      //photoElement.setData(pictureData);
       photoElement.render();
       contaner.appendChild(photoElement.element);
 
@@ -139,11 +131,6 @@
     }));
     contaner.classList.remove('pictures-loading');
   }
-
-//  function _onClick(evt) {
-//    evt.preventDefault();
-//    gallery.show();
-//  }
 
   function setFilter(id) {
     currentPage = 0;
