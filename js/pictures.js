@@ -15,7 +15,7 @@
    * @type {Array.<Object>}
    */
   var loadedSomeShitFromServer = null;
-
+                                        //var createdObjectPhoto = []
   var sortedPictures = null;
   var currentPage = 0;
   var PAGE_SIZE = 12;
@@ -100,10 +100,10 @@
     pageNumber = pageNumber || 0;
 
     if (replace) {
-      var allPicturesNodes = contaner.querySelectorAll('.picture');
+      var allPicturesNodes = contaner.querySelectorAll('.picture');/// удалить
       [].forEach.call(allPicturesNodes, function(elem) {
         elem.removeEventListener('click', _onClick);
-        contaner.removeChild(elem);
+        contaner.removeChild(elem);             //while .shift
       });
     }
 
@@ -116,7 +116,7 @@
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
-    numberPicutersOnPage.forEach(function(pictureData) {
+    numberPicutersOnPage.forEach(function(pictureData) {   // concat(массив.map)
       var photoElement = new Photo(pictureData);
       photoElement.render();
       contaner.appendChild(photoElement.element);
