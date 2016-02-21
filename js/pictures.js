@@ -126,6 +126,9 @@
         gallery.show();
       };
 
+      //метод из галлереии по отравки фото в нее же
+      gallery.setPhotos(pictures);
+
       return photoElement;
     }));
     contaner.classList.remove('pictures-loading');

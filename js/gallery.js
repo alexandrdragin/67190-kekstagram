@@ -25,9 +25,7 @@
     window.addEventListener('keydown', this._onDocumentKeyDown);
     this._photo.addEventListener('click', this._onPhotoClick);
 
-    this._photo.src = this.data.url;
-    this._likes.querySelector('.likes-count').textContent = this.data.likes;
-    this._comments.querySelector('.comments-count').textContent = this.data.comments;
+    this.showCurrentPhoto();
   };
 
   Gallery.prototype.unshow = function() {
@@ -39,6 +37,7 @@
 
   Gallery.prototype._onPhotoClick = function() {
     this.currentImage = this.currentImage + 1;
+    this.setCurrentPhoto(+1); // ???
   };
 
   Gallery.prototype._onCloseClick = function() {
@@ -58,16 +57,20 @@
   };
 
   Gallery.prototype.setPhotos = function(pictures) {
-    this.pictures = pictures; /// как они туда поподают??????
+    this._pictures = pictures; // отфилтрованные малышки
   };
 
-  Gallery.prototype.setCurrentPhoto = function() {
-
+  Gallery.prototype.setCurrentPhoto = function(index) {
+    this.currentImage = index + 1; // который записывает в приватное свойство
+    // _currentPhoto индекс текущей показанной фотографии и показывает ее на экране.
   };
 
   Gallery.prototype.showCurrentPhoto = function() {
     this._photo.innerHTML = ' ';
 
+    this._photo.src = this.data.url;
+    this._likes.querySelector('.likes-count').textContent = this.data.likes;
+    this._comments.querySelector('.comments-count').textContent = this.data.comments;
   };
 
 
