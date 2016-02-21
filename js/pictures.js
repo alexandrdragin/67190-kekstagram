@@ -120,10 +120,9 @@
       photoElement.render();
       contaner.appendChild(photoElement.element);
 
-      //photoElement.element.addEventListener('click', _onClick);
-
       photoElement.onClick = function() {
         gallery.data = photoElement._data;
+        console.log(gallery.data);
         gallery.show();
       };
 
