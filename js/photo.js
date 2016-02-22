@@ -51,7 +51,6 @@
 
       this.element.addEventListener('click', this.onPhotoClick);
     }
-
   };
 
   Photo.prototype.onClick = null;

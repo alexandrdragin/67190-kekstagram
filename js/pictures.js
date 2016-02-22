@@ -121,16 +121,19 @@
       contaner.appendChild(photoElement.element);
 
       photoElement.onClick = function() {
-        gallery.data = photoElement._data;
-        console.log(gallery.data);
+        gallery.data = photoElement._data; // отправка даты в галлерею
         gallery.show();
       };
 
-      //метод из галлереии по отравки фото в нее же
-      gallery.setPhotos(pictures);
-
       return photoElement;
     }));
+
+    //console.dir(nowCreatedObjectPhoto);
+    //console.log(nowCreatedObjectPhoto.length);
+
+    //метод из галлереии по отравки Photo в нее же
+    gallery.setPhotos(nowCreatedObjectPhoto);
+
     contaner.classList.remove('pictures-loading');
   }
 
