@@ -15,7 +15,7 @@
    * @type {Array.<Object>}
    */
   var loadedSomeShitFromServer = null;
-                                        //var createdObjectPhoto = []
+  var nowCreatedObjectPhoto = [];  //обьекты компанеты
   var sortedPictures = null;
   var currentPage = 0;
   var PAGE_SIZE = 12;
@@ -73,10 +73,6 @@
       renderPictures(loadedSomeShitFromServer, 0);
       sortChecker.querySelector('#filter-new').checked = true;
 
-        // еще есть кейс когда после 1 загрузки растянули окно
-        // знаю как сделать но чет лень()
-        // нужно повесить событие на он чаниж виндоу с тротлм
-        // и если currentPage = 0 тогда еще подгруз.
     };
 
     xhr.onerror = function() {
@@ -100,11 +96,12 @@
     pageNumber = pageNumber || 0;
 
     if (replace) {
-      var allPicturesNodes = contaner.querySelectorAll('.picture');/// удалить
-      [].forEach.call(allPicturesNodes, function(elem) {
-        elem.removeEventListener('click', _onClick);
-        contaner.removeChild(elem);             //while .shift
-      });
+      var elem;
+      while ((elem = nowCreatedObjectPhoto.shift())) { // уничтожение по 1
+        contaner.removeChild(elem.element);
+        elem.onClick = null;
+        elem.remove();
+      }
     }
 
     if (document.body.clientWidth > largeScreenSize && pageNumber === 0 && doThisShitOneTime === 1) {
@@ -116,19 +113,28 @@
     var to = from + PAGE_SIZE;
     var numberPicutersOnPage = pictures.slice(from, to);
 
-    numberPicutersOnPage.forEach(function(pictureData) {   // concat(массив.map)
+      //конкатинация массивов скеиванием
+    nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
       var photoElement = new Photo(pictureData);
+      //photoElement.setData(pictureData);
       photoElement.render();
       contaner.appendChild(photoElement.element);
 
-      photoElement.element.addEventListener('click', _onClick);
-    });
-    contaner.classList.remove('pictures-loading');
-  }
+      photoElement.onClick = function() {
+        gallery.data = photoElement._data; // отправка даты в галлерею
+        gallery.show();
+      };
 
-  function _onClick(evt) {
-    evt.preventDefault();
-    gallery.show();
+      return photoElement;
+    }));
+
+    //console.dir(nowCreatedObjectPhoto);
+    //console.log(nowCreatedObjectPhoto.length);
+
+    //метод из галлереии по отравки Photo в нее же
+    gallery.setPhotos(nowCreatedObjectPhoto);
+
+    contaner.classList.remove('pictures-loading');
   }
 
   function setFilter(id) {
