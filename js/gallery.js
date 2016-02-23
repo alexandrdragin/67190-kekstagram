@@ -53,7 +53,6 @@
   };
 
   Gallery.prototype._onDocumentKeyDown = function(evt) {
-    evt.preventDefault();
     if (evt.keyCode === 27) {
       this.unshow();
     }
