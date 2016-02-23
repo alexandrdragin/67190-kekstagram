@@ -25,7 +25,7 @@
 
   var gallery = new Gallery();
 
-  var nowFilter = 'filter-new';
+  var nowFilter = '#' + (localStorage.getItem('filterInStorage') || 'filter-new');
 
 //подвеска для фильтров
   var sortChecker = document.querySelector('.filters');
@@ -71,8 +71,7 @@
       loadedSomeShitFromServer = JSON.parse(firstShit);
 
       renderPictures(loadedSomeShitFromServer, 0);
-      sortChecker.querySelector('#filter-new').checked = true;
-
+      sortChecker.querySelector(nowFilter).checked = true;
     };
 
     xhr.onerror = function() {
@@ -128,9 +127,6 @@
       return photoElement;
     }));
 
-    //console.dir(nowCreatedObjectPhoto);
-    //console.log(nowCreatedObjectPhoto.length);
-
     //метод из галлереии по отравки Photo в нее же
     gallery.setPhotos(nowCreatedObjectPhoto);
 
@@ -139,7 +135,7 @@
 
   function setFilter(id) {
     currentPage = 0;
-    if (nowFilter === id) {
+    if (nowFilter === '#' + id) {
       return;
     }
 
@@ -170,6 +166,7 @@
     }
 
     renderPictures(sortedPictures, 0, true);
+    localStorage.setItem('filterInStorage', nowFilter);
   }
 
 })();
