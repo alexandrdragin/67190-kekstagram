@@ -25,13 +25,13 @@
 
   var gallery = new Gallery();
 
-  var nowFilter = '#' + (localStorage.getItem('filterInStorage') || 'filter-new');
+  var nowFilter = (localStorage.getItem('filterInStorage') || 'filter-new');
 
 //подвеска для фильтров
   var sortChecker = document.querySelector('.filters');
   sortChecker.addEventListener('click', function(evt) {
     var clickedSortButton = evt.target;
-    if (clickedSortButton.classList.contains('filters-radio')) {
+    if (clickedSortButton.classList.contains('filters-radio') && (nowFilter !== clickedSortButton.id)) {
       setFilter(clickedSortButton.id);
     }
   });
@@ -67,11 +67,12 @@
     xhr.timeout = 10000;
 
     xhr.onload = function(evt) {
-      var firstShit = evt.target.response;
-      loadedSomeShitFromServer = JSON.parse(firstShit);
+      loadedSomeShitFromServer = JSON.parse(evt.target.response);
+      //renderPictures(loadedSomeShitFromServer, 0);
 
-      renderPictures(loadedSomeShitFromServer, 0);
-      sortChecker.querySelector(nowFilter).checked = true;
+      setFilter(nowFilter);
+      var nowFilterHash = '#' + nowFilter;
+      sortChecker.querySelector(nowFilterHash).checked = true;
     };
 
     xhr.onerror = function() {
@@ -135,9 +136,6 @@
 
   function setFilter(id) {
     currentPage = 0;
-    if (nowFilter === '#' + id) {
-      return;
-    }
 
     sortedPictures = loadedSomeShitFromServer.slice(0); //copy
 
@@ -168,5 +166,7 @@
     renderPictures(sortedPictures, 0, true);
     localStorage.setItem('filterInStorage', nowFilter);
   }
+
+
 
 })();
