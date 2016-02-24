@@ -71,13 +71,5 @@
     this.element.removeEventListener('click', this._onClick);
   };
 
-  Photo.prototype.setData = function(data) {
-    this._data = data;
-  };
-
-  Photo.prototype.getData = function() {
-    return this._data;
-  };
-
   window.Photo = Photo;
 })();
