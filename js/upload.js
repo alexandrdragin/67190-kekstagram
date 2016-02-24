@@ -366,8 +366,8 @@
   }
 
   window.addEventListener('imagecreated', function() {
-
     imageConstraint = resizer.getConstraint();
+    return imageConstraint;
   });
 
   /**
