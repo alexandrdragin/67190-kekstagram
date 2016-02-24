@@ -1,5 +1,3 @@
-/* global Photo, Gallery: true */
-
 /**
  * @fileoverview
  * @author Alexandr Dragin
@@ -7,7 +5,9 @@
 
 'use strict';
 
-(function() {
+define([
+  'photo.js', 'gallery.js', 'check.js', 'upload.js'
+], function(Photo, Gallery) {
 
   /**
    * @type {HTMLElement}

@@ -1,13 +1,14 @@
-/* global Resizer, docCookies: true */
-
 /**
  * @fileoverview
- * @author Igor Alexeenko (o0)
+ * @author Igor Alexeenko и Alexandr Dragin
  */
 
 'use strict';
 
-(function() {
+define([
+  'resizer',
+  'cookies'
+], function(Resizer, docCookies) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -36,6 +37,26 @@
   var filterMap;
 
   /**
+   * Ставит одну из трех случайных картинок на фон формы загрузки.
+   */
+  function updateBackground() {
+    var images = [
+      'img/logo-background-1.jpg',
+      'img/logo-background-2.jpg',
+      'img/logo-background-3.jpg'
+    ];
+
+    var backgroundElement = document.querySelector('.upload');
+    var randomImageNumber = Math.round(Math.random() * (images.length - 1));
+    backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
+  }
+
+  /**
+   * @fileoverview
+   * @author Alexandr Dragin
+   */
+
+  /**
    * Объект, который занимается кадрированием изображения.
    * @type {Resizer}
    */
@@ -60,7 +81,6 @@
   var MY_LAST_BD = (1439510400); // 14 августа 2015
   var exDate = new Date(now.getTime() + MY_LAST_BD);
 
-
   //конец констант//////////////////////////
 
   /**
@@ -72,21 +92,6 @@
       currentResizer.remove();
       currentResizer = null;
     }
-  }
-
-  /**
-   * Ставит одну из трех случайных картинок на фон формы загрузки.
-   */
-  function updateBackground() {
-    var images = [
-      'img/logo-background-1.jpg',
-      'img/logo-background-2.jpg',
-      'img/logo-background-3.jpg'
-    ];
-
-    var backgroundElement = document.querySelector('.upload');
-    var randomImageNumber = Math.round(Math.random() * (images.length - 1));
-    backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   }
 
   /**
@@ -119,6 +124,11 @@
 
     return true;
   }
+
+  /**
+   * @fileoverview
+   * @author Igor Alexeenko (o0)
+   */
 
   /**
    * Форма загрузки изображения.
@@ -279,8 +289,13 @@
 
     var selectedFilter = filterForm.querySelector('input[name="upload-filter"]:checked').value;
 
+    /**
+     * сложим в куки
+     * @param {String} key
+     * @param {String} selectedFilter
+     * @param {date} date
+     */
     setCookieFun('filterInCookie', selectedFilter, exDate.toUTCString());
-    //document.cookie = 'filterInCookie' + '=' + selectedFilter + '; expires=' + exDate.toUTCString();
 
     cleanupResizer();
     updateBackground();
@@ -331,30 +346,42 @@
 
   /**
    *  Функиция записи в cookie
+   * @param {String} key
+   * @param {String} value
+   * @param {date} expires
    */
   function setCookieFun(name, value, expires) {
     document.cookie = name + '=' + value + '; expires=' + expires;
   }
 
+  /**
+   * Доставалка из куки по ключу
+   * @type {String}
+   */
   var selectedFilterCookie = docCookies.getItem('filterInCookie');
   if (typeof (selectedFilterCookie) === 'string') {
-    // лейбл
+    // установка лейбла в форме тру
     filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilterCookie + '"]').checked = true;
     // фильтр на картинку из куки
     filterImage.className = 'filter-image-preview' + ' filter-' + selectedFilterCookie;
   }
 
   window.addEventListener('imagecreated', function() {
-
     imageConstraint = resizer.getConstraint();
-    console.log(imageConstraint);
+    return imageConstraint;
   });
 
+  /**
+   * навеска
+   */
   resizeForm.addEventListener('change', onResizeFormChange);
   function onResizeFormChange() {
     updateResizer();
   }
 
+  /**
+   * получение
+   */
   function updateResizeForm() {
     resizeFormIsValid();
     if (currentResizer !== null) {
@@ -365,6 +392,9 @@
     }
   }
 
+  /**
+   * апдейт
+   */
   function updateResizer() {
     resizeFormIsValid();
     if (currentResizer !== null) {
@@ -376,4 +406,5 @@
 
   cleanupResizer();
   updateBackground();
-})();
+
+});

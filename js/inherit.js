@@ -1,9 +1,14 @@
+/**
+ * @fileoverview
+ * @author Alexandr Dragin
+ */
+
 'use strict';
 
-(function() {
+define(function() {
 
  /**
-   *
+   * Прото наследование
    * @param {function} child constructor function
    * @param {function} parent constructor function
    */
@@ -15,5 +20,6 @@
 
   }
 
-  window.inherit = inherit;
-})();
+  return inherit;
+
+});
