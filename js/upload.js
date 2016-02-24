@@ -1,5 +1,3 @@
-/* global Resizer, docCookies: true */
-
 /**
  * @fileoverview
  * @author Igor Alexeenko и Alexandr Dragin
@@ -7,7 +5,10 @@
 
 'use strict';
 
-(function() {
+define([
+  'resizer',
+  'cookies'
+], function(Resizer, docCookies) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -405,4 +406,5 @@
 
   cleanupResizer();
   updateBackground();
-})();
+
+});

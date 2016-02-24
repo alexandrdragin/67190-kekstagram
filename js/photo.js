@@ -1,5 +1,3 @@
-/* global inherit, PhotoBase: true */
-
 /**
  * @fileoverview
  * @author Alexandr Dragin
@@ -7,7 +5,10 @@
 
 'use strict';
 
-(function() {
+define([
+  'inherit',
+  'photo-base'
+], function(inherit, PhotoBase) {
 
   /**
    * основные данные для каждой фото в галлерее приявязаны намертво
@@ -100,5 +101,5 @@
     this.element.removeEventListener('click', this.onClick);
   };
 
-  window.Photo = Photo;
-})();
+  return Photo;
+});
