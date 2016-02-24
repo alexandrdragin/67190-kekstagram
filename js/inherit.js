@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
 
  /**
    * Прото наследование
@@ -20,6 +20,6 @@
 
   }
 
-  window.inherit = inherit;
+  return inherit;
 
-})();
+});

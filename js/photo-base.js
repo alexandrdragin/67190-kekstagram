@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
 
   /**
    * Конструкторор Базы со свойствами для каждой фотографии
@@ -21,7 +21,7 @@
 
   /**
    * Бесполезный метод по установке данных, нигде не вызывается
-   * @param {Array} data
+   * @param {Object} data
    */
   PhotoBase.prototype.setData = function(data) {
     this._data = data;
@@ -29,6 +29,7 @@
 
   /**
    * Бесполезный метод по получению данных, нигде не вызывается
+   * @return {Object}
    */
   PhotoBase.prototype.getData = function() {
     return this._data;
@@ -39,6 +40,6 @@
    */
   PhotoBase.prototype.onClick = null;
 
-  window.PhotoBase = PhotoBase;
+  return PhotoBase;
 
-})();
+});
