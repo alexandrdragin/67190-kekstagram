@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
 
   /**
    * Конструкторор Базы со свойствами для каждой фотографии
@@ -40,6 +40,6 @@
    */
   PhotoBase.prototype.onClick = null;
 
-  window.PhotoBase = PhotoBase;
+  return PhotoBase;
 
-})();
+});
