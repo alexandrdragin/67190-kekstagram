@@ -7,9 +7,9 @@ var a, b;
 
 /**
  *  проверка типа приходящего обьекта после upload
- * @param {function} a
- * @param {function} b
- * @return {string}
+ * @param {boolean|number|object} a - параметр для анализа
+ * @param {object} b - параметр для анализа
+ * @return {string} - сообщение
  */
 function getMessage (a, b) {
 
