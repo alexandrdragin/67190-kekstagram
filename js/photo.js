@@ -1,17 +1,39 @@
+/* global inherit, PhotoBase: true */
+
+/**
+ * @fileoverview
+ * @author Alexandr Dragin
+ */
+
 'use strict';
 
 (function() {
 
+  /**
+   * основные данные для каждой фото в галлерее приявязаны намертво
+   * @constructor
+   * @param {string} data
+   */
   function Photo(data) {
     this._data = data;
     this.onPhotoClick = this.onPhotoClick.bind(this);
   }
 
+  /**
+   * функия по наследоваю одного прототипа от другово
+   * @param {Object} Photo
+   * @param {Object} PhotoBase
+   */
+  inherit(Photo, PhotoBase);
+
+  /**
+   * метод вытаскивания тепмлейта и после забиваем его датой
+   */
   Photo.prototype.render = function() {
 
     var template = document.querySelector('#picture-template');
 
-// проверка браузера
+    // проверка браузера
     if ('content' in template) {
       this.element = template.content.querySelector('.picture').cloneNode(true);
     } else {
@@ -53,8 +75,12 @@
     }
   };
 
-  Photo.prototype.onClick = null;
-
+  /**
+   * Приклеивание обработчика из другого метода
+   * сработка по условию
+   * изначально null
+   * @param {Event} evt
+   */
   Photo.prototype.onPhotoClick = function(evt) {
     evt.preventDefault();
     if (
@@ -67,8 +93,11 @@
     }
   };
 
+  /**
+   * чисто
+   */
   Photo.prototype.remove = function() {
-    this.element.removeEventListener('click', this._onClick);
+    this.element.removeEventListener('click', this.onClick);
   };
 
   window.Photo = Photo;
