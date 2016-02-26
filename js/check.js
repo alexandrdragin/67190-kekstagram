@@ -34,6 +34,10 @@ define(function() {
         sum += a[i];
       };
 
+      //var total = a.reduce(function(sum, order) {
+      //  return sum + a.order
+      //}, 0)
+
       return "Количество красных точек во всех строчках изображения: " + sum + ".";
     };
 

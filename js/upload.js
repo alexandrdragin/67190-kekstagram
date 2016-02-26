@@ -6,9 +6,8 @@
 'use strict';
 
 define([
-  'resizer',
-  'cookies'
-], function(Resizer, docCookies) {
+  'resizer'
+], function(Resizer) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -358,7 +357,7 @@ define([
    * Доставалка из куки по ключу
    * @type {String}
    */
-  var selectedFilterCookie = docCookies.getItem('filterInCookie');
+  var selectedFilterCookie = window.docCookies.getItem('filterInCookie');
   if (typeof (selectedFilterCookie) === 'string') {
     // установка лейбла в форме тру
     filterForm.querySelector('input[name="upload-filter"][value="' + selectedFilterCookie + '"]').checked = true;
