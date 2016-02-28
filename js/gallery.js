@@ -64,9 +64,9 @@ define(function() {
 
     // поиск фото по хешу и установка даты
     for (var i = 0; i < this._pictures.length; i++) {
-      if (this._pictures[i]._data.url === hash) {
+      if (this._pictures[i].url === hash) {
         this._currentImage = i;
-        this.data = this._pictures[i]._data;
+        this.data = this._pictures[i];
       }
     }
 
@@ -145,7 +145,7 @@ define(function() {
       index = this._pictures.length - 1;
     }
 
-    this.data = this._pictures[index]._data;
+    this.data = this._pictures[index];
     this._currentImage = index;
 
     location.hash = '#photo' + '/' + this.data.url;
@@ -157,7 +157,7 @@ define(function() {
   Gallery.prototype.showCurrentPhoto = function() {
     this._photo.innerHTML = ' ';
 
-    this._photo.src = this.data.url;
+    this._photo.src = this.data.preview || this.data.url;
     this._likes.querySelector('.likes-count').textContent = this.data.likes;
     this._comments.querySelector('.comments-count').textContent = this.data.comments;
 
