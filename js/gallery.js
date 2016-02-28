@@ -7,7 +7,6 @@
 
 define(function() {
 
-
 /**
  * Конструктор Галерреи
  * @constructor
@@ -45,13 +44,16 @@ define(function() {
     this._onDocumentKeyDown = this._onDocumentKeyDown.bind(this);
     this._onPhotoClick = this._onPhotoClick.bind(this);
     this._like = this._like.bind(this);
+
+    this._onHashChange = this._onHashChange.bind(this);
   };
 
   /**
    * метод для начала работы
    * @type {object}
+   * @param {string}
    */
-  Gallery.prototype.show = function() {
+  Gallery.prototype.show = function(hash) {
     this.overlay.classList.remove('invisible');
 
     this._clButton.addEventListener('click', this._onCloseClick);
@@ -60,12 +62,14 @@ define(function() {
     this._photo.addEventListener('click', this._onPhotoClick);
     this._likes.addEventListener('click', this._like);
 
-    //сравниваем обьекты с клика и сетФотос, находим равный и выставляем индекс
+    // поиск фото по хешу и установка даты
     for (var i = 0; i < this._pictures.length; i++) {
-      if (this._pictures[i]._data === this.data) {
+      if (this._pictures[i]._data.url === hash) {
         this._currentImage = i;
+        this.data = this._pictures[i]._data;
       }
     }
+
     this.showCurrentPhoto();
   };
 
@@ -79,6 +83,8 @@ define(function() {
     window.removeEventListener('keydown', this._onDocumentKeyDown);
     this._photo.removeEventListener('click', this._onPhotoClick);
     this._likes.removeEventListener('click', this._like);
+
+    location.hash = '';
   };
 
   /**
@@ -122,15 +128,16 @@ define(function() {
    */
   Gallery.prototype.setPhotos = function(pictures) {
     this._pictures = pictures; // отфильтрованные малышки
-    // тут сложный моментик потому что приходят Photo
-    // а по клику Object
+
+    window.addEventListener('hashchange', this._onHashChange);
   };
 
   /**
    * Метод по изменению индекса.
-   * @param {number} index
+   * @param {number | string} index
    */
   Gallery.prototype.setCurrentPhoto = function(index) {
+
     if (index > this._pictures.length - 1) {
       index = 0;
     }
@@ -138,10 +145,10 @@ define(function() {
       index = this._pictures.length - 1;
     }
 
-    // записывает в текущие данные, данные с новым индеском, меняет текущий индх
     this.data = this._pictures[index]._data;
     this._currentImage = index;
-    this.showCurrentPhoto();
+
+    location.hash = '#photo' + '/' + this.data.url;
   };
 
   /**
@@ -181,6 +188,19 @@ define(function() {
     }
   };
 
+  /**
+    * Определяет необходимость отображать галерею по хешу
+    * вызываем при изменении страницы и после загрузки
+    */
+  Gallery.prototype._onHashChange = function() {
+    var matchedHash = location.hash.match(/#photo\/(\S+)/);
+    if (Array.isArray(matchedHash)) {
+      this.show(matchedHash[1]);
+    } else {
+      this.unshow();
+    }
+  };
+
   return Gallery;
 });
 /*
@@ -189,15 +209,4 @@ define(function() {
 с помощью объекта типа PhotoPreview. Унаследуйте этот объект и объект Photo
 от общего объекта PhotoBase с помощью функции inherit,
 которую вы написали в предыдущем задании. ЗАЧЕМ?????
-
-
-Дополнительное задание для маньяков
-Создайте еще один тип объектов: видео в галерее.
-Унаследуйте его от объекта Photo.
-Этот объект должен вместо фотографии показывать видео с помощью элемента HTMLVideoElement.
-Определяйте, какой объект — Photo или ваш объект — использовать по наличию атрибута url в данных.
-Видео должно автоматически включаться и проигрываться в цикле.
-Видео должно ставиться на паузу и сниматься с нее по клику
-(в этом случае нужно отменять переключение слайда, но это не страшно,
-вы же выполнили первое допзадание, если добрались до этого).
 */
