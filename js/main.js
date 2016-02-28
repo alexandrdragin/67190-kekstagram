@@ -6,7 +6,7 @@
 'use strict';
 
 define([
-  'photo.js', 'gallery.js', 'check.js', 'upload.js'
+  'js/photo.js', 'js/gallery.js', 'js/check.js', 'js/upload.js'
 ], function(Photo, Gallery) {
 
   /**
@@ -181,10 +181,11 @@ define([
       // и довеса на этот элемнт онклика по отрвки даты в gallery.js
       photoElement.onClick = function() {
         gallery.data = photoElement._data; // отправка даты в галлерею
-        gallery.show(); // покажись
+        location.hash = '#photo' + '/' + photoElement._data.url;
+
       };
 
-      return photoElement; // незнаю зачем здесь это
+      return photoElement; // незнаю зачем здесь это но без нее не работает
     }));
 
   /**
@@ -192,6 +193,7 @@ define([
     * причем тут это уже дом элементы а не просто данные
     */
     gallery.setPhotos(nowCreatedObjectPhoto);
+    gallery._onHashChange();
 
     // убираем прелоадер
     contaner.classList.remove('pictures-loading');
@@ -247,4 +249,4 @@ define([
     localStorage.setItem('filterInStorage', nowFilter);
   }
 
-})();
+});
