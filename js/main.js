@@ -192,7 +192,7 @@ define([
     * метод из галлереии по отравки Photo в нее же
     * причем тут это уже дом элементы а не просто данные
     */
-    gallery.setPhotos(nowCreatedObjectPhoto);
+    gallery.setPhotos(pictures);
     gallery._onHashChange();
 
     // убираем прелоадер
