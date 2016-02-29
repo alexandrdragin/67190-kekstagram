@@ -211,6 +211,12 @@ define([
     // в случае
     switch (id) {
       case 'filter-new':
+        var TWO_WEEK = 1209600000;
+        var lastTwoWeek = new Date() - TWO_WEEK;
+        sortedPictures = sortedPictures.filter(
+          function(value) {
+            return (Date.parse(value.date) >= lastTwoWeek);
+          });
         sortedPictures = sortedPictures.sort(function(a, b) {
           return b.date - a.date; // чем больше тем выше
         });
