@@ -124,7 +124,7 @@ define(function() {
 
   /**
    * Важный метод. принимает данные из pictures.js после каждой фильтрации.
-   * @param {array} pictures
+   * @param {Array} pictures
    */
   Gallery.prototype.setPhotos = function(pictures) {
     this._pictures = pictures; // отфильтрованные малышки
@@ -171,7 +171,7 @@ define(function() {
 
   /**
    * Метод по клику на лайк, проверям, доб класс, изменяем данные
-  * @private
+   * @private
    */
   Gallery.prototype._like = function() {
 
@@ -189,9 +189,9 @@ define(function() {
   };
 
   /**
-    * Определяет необходимость отображать галерею по хешу
-    * вызываем при изменении страницы и после загрузки
-    */
+   * Определяет необходимость отображать галерею по хешу
+   * вызываем при изменении страницы и после загрузки
+   */
   Gallery.prototype._onHashChange = function() {
     var matchedHash = location.hash.match(/#photo\/(\S+)/);
     if (Array.isArray(matchedHash)) {

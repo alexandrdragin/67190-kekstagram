@@ -20,7 +20,7 @@ define([
 
   /**
    * хранит изначальное состояние данных сервера
-   * @type {array.<object>}
+   * @type {Array.<object>}
    */
   var loadedSomeShitFromServer = null;
   var nowCreatedObjectPhoto = [];  //обьекты компанеты
@@ -37,7 +37,7 @@ define([
    * всякое
    * @const {number}
    */
-  var largeScreenSize = 1367; // размер широкого экрана
+  var largeScreenSize = 1380; // размер широкого экрана
 
   /**
    * @type {gallery}
@@ -123,7 +123,7 @@ define([
 
   /**
    * отрисовка списка фотографий
-   * @param {array.<object>} reviewsToRender
+   * @param {Array.<object>} reviewsToRender
    * @param {number} pageNumber
    * @param {boolean=} replace
    */
@@ -178,7 +178,7 @@ define([
 
       // и довеса на этот элемнт онклика по отрвки даты в gallery.js
       photoElement.onClick = function() {
-        gallery.data = photoElement._data; // отправка даты в галлерею
+        //gallery.data = photoElement._data; // отправка даты в галлерею
         location.hash = '#photo' + '/' + photoElement._data.url;
 
       };
@@ -239,7 +239,7 @@ define([
 
     /**
      * отрисовка отфильрованных фотографий
-     * @param {array.<object>} reviewsToRender
+     * @param {Array.<object>} reviewsToRender
      * @param {number} pageNumber
      * @param {boolean=} replace всегда true потому что замена
      */
