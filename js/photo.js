@@ -55,8 +55,16 @@ define([
     if (src) {
       var miniPhoto = new Image();
 
-      this.element.querySelector('IMG').src = src; // ниже
-      //element.replaceChild; короч нужно было заменить но я не понял
+      miniPhoto.onload = function() {
+
+        this.element.style.backgroundImage = 'url(\'' + src + '\')';
+
+        this.element.style.width = '182px';
+        this.element.style.height = '182px';
+        this.element.width = 182;
+        this.element.height = 182;
+        this.element.backgroundSize = '182px 182px'; // не работает устновка размеров
+      }.bind(this);
 
       miniPhoto.onerror = function() {
         this.element.classList.add('picture-load-failure');
@@ -64,8 +72,15 @@ define([
 
       miniPhoto.src = src;
 
+      miniPhoto.style.width = '182px';
+      miniPhoto.style.height = '182px';
+      miniPhoto.width = 182;
+      miniPhoto.height = 182;
+      miniPhoto.backgroundSize = '182px 182px';
+
       this.element.addEventListener('click', this.onPhotoClick);
     }
+
   };
 
   /**
