@@ -58,12 +58,7 @@ define([
       miniPhoto.onload = function() {
 
         this.element.style.backgroundImage = 'url(\'' + src + '\')';
-
-        this.element.style.width = '182px';
-        this.element.style.height = '182px';
-        this.element.width = 182;
-        this.element.height = 182;
-        this.element.backgroundSize = '182px 182px'; // не работает устновка размеров
+        this.element.style.backgroundSize = '182px 182px';
       }.bind(this);
 
       miniPhoto.onerror = function() {
@@ -72,11 +67,6 @@ define([
 
       miniPhoto.src = src;
 
-      miniPhoto.style.width = '182px';
-      miniPhoto.style.height = '182px';
-      miniPhoto.width = 182;
-      miniPhoto.height = 182;
-      miniPhoto.backgroundSize = '182px 182px';
 
       this.element.addEventListener('click', this.onPhotoClick);
     }
