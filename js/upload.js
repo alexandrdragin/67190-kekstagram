@@ -108,8 +108,17 @@ define([
     var xValue = +document.getElementById('resize-x').value;
 
 
-    if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth)) {
+    if ( ( (yValue + sValue) > naturalHeight) || ((xValue + sValue) > naturalWidth) || yValue < 0 || xValue < 0 ) {
       //если нет меняем кнопку
+
+      if (yValue < 0) {
+        resizeY.style.color = 'red';
+      }
+
+      if (xValue < 0) {
+        resizeX.style.color = 'red';
+      }
+
       uploadFormFrw[0].setAttribute('disabled', true);
       uploadFormFrw[0].innerHTML = 'BAD SIZE';
       uploadFormFrw[0].style.color = 'red';
