@@ -170,13 +170,14 @@
      * @param {number} to
      */
     var numberPicutersOnPage = pictures.slice(from, to);
+    var fragment = document.createDocumentFragment();
 
       //конкатинация массивов скеиванием
     nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
       var photoElement = new Photo(pictureData);
 
       photoElement.render(); // метод из photo.js по отрисовке одного
-      contaner.appendChild(photoElement.element); // приклеивание
+      fragment.appendChild(photoElement.element); // приклеивание
 
       // и довеса на этот элемнт онклика по отрвки даты в gallery.js
       photoElement.onClick = function() {
@@ -186,6 +187,9 @@
 
       return photoElement; // незнаю зачем здесь это
     }));
+
+    contaner.appendChild(fragment);
+
 
   /**
     * метод из галлереии по отравки Photo в нее же
