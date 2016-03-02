@@ -21,7 +21,7 @@ define(function() {
 
   /**
    * Бесполезный метод по установке данных, нигде не вызывается
-   * @param {Object} data
+   * @param {object} data
    */
   PhotoBase.prototype.setData = function(data) {
     this._data = data;
@@ -29,7 +29,7 @@ define(function() {
 
   /**
    * Бесполезный метод по получению данных, нигде не вызывается
-   * @return {Object}
+   * @return {object}
    */
   PhotoBase.prototype.getData = function() {
     return this._data;

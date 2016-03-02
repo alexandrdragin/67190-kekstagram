@@ -77,7 +77,7 @@ define(function() {
    * метод для конца работы
    * @type {object}
    */
-  Gallery.prototype.unshow = function() {
+  Gallery.prototype.hide = function() {
     this.overlay.classList.add('invisible');
     this._clButton.removeEventListener('click', this._onPhotoClick);
     window.removeEventListener('keydown', this._onDocumentKeyDown);
@@ -100,7 +100,7 @@ define(function() {
    * @private
    */
   Gallery.prototype._onCloseClick = function() {
-    this.unshow();
+    this.hide();
   };
 
   /**
@@ -110,7 +110,7 @@ define(function() {
    */
   Gallery.prototype._onDocumentKeyDown = function(evt) {
     if (evt.keyCode === 27) {
-      this.unshow();
+      this.hide();
     }
     if (evt.keyCode === 39) {
       evt.preventDefault();
@@ -124,7 +124,7 @@ define(function() {
 
   /**
    * Важный метод. принимает данные из pictures.js после каждой фильтрации.
-   * @param {Array} pictures
+   * @param {array} pictures
    */
   Gallery.prototype.setPhotos = function(pictures) {
     this._pictures = pictures; // отфильтрованные малышки
@@ -197,7 +197,7 @@ define(function() {
     if (Array.isArray(matchedHash)) {
       this.show(matchedHash[1]);
     } else {
-      this.unshow();
+      this.hide();
     }
   };
 

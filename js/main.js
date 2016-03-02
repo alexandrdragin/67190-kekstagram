@@ -6,7 +6,7 @@
 'use strict';
 
 define([
-  'js/photo.js', 'js/gallery.js', 'js/check.js', 'js/upload.js'
+  'photo.js', 'gallery.js', 'check.js', 'upload.js'
 ], function(Photo, Gallery) {
 
   /**
@@ -20,7 +20,7 @@ define([
 
   /**
    * хранит изначальное состояние данных сервера
-   * @type {Array.<Object>}
+   * @type {array.<object>}
    */
   var loadedSomeShitFromServer = null;
   var nowCreatedObjectPhoto = [];  //обьекты компанеты
@@ -28,17 +28,16 @@ define([
 
   /**
    * всякое
-   * @type {Number}
+   * @type {number}
    */
   var currentPage = 0;
   var PAGE_SIZE = 12;
 
   /**
    * всякое
-   * @const {Number}
+   * @const {number}
    */
   var largeScreenSize = 1367; // размер широкого экрана
-  var doThisShitOneTime = 1;
 
   /**
    * @type {gallery}
@@ -47,9 +46,9 @@ define([
 
   /**
    * Доставалка из локалстореджа или по умолчанию
-   * @type {String}
+   * @type {string}
    */
-  var nowFilter = (localStorage.getItem('filterInStorage') || 'filter-new');
+  var nowFilter = (localStorage.getItem('filterInStorage') || 'filter-popular');
 
   /**
    * подвеска для фильтров
@@ -60,7 +59,7 @@ define([
   /**
    * Приклеивание на весь блок
    * но срабатывание по условию
-   * @param {Event} evt
+   * @param {event} evt
    */
   sortChecker.addEventListener('click', function(evt) {
     var clickedSortButton = evt.target;
@@ -71,7 +70,7 @@ define([
 
   /**
    * тротлим скрол
-   * @type {Object}
+   * @type {object}
    */
   var trottle;
 
@@ -81,7 +80,7 @@ define([
 
       /**
        * параметры экрана
-       * @const {Number}
+       * @const {number}
        */
       var viewportSize = window.innerHeight; // размер экрана
       var totalHeight = document.body.clientHeight; // страница целиком
@@ -94,9 +93,9 @@ define([
     }, 500); // время между тротлами
   });
 
-/**
-  * Загрузка данных
-  */
+  /**
+   * Загрузка данных
+   */
   getSomeShit();
 
   function getSomeShit() {
@@ -124,7 +123,7 @@ define([
 
   /**
    * отрисовка списка фотографий
-   * @param {Array.<Object>} reviewsToRender
+   * @param {array.<object>} reviewsToRender
    * @param {number} pageNumber
    * @param {boolean=} replace
    */
@@ -139,7 +138,7 @@ define([
 
     /**
      * механика перетирания содержимого страницы
-     * @type {Array}
+     * @type {array}
      */
       var elem;
       while ((elem = nowCreatedObjectPhoto.shift())) { // уничтожение по 1 до 0
@@ -150,16 +149,15 @@ define([
     }
 
     /**
-      * На широких эранах при зарузке размер страницы будет + 8
+      * На широких эранах при зарузке размер страницы будет 20
       */
-    if (document.body.clientWidth > largeScreenSize && pageNumber === 0 && doThisShitOneTime === 1) {
-      PAGE_SIZE = PAGE_SIZE + 8;
-      doThisShitOneTime = 0;
+    if (document.body.clientWidth > largeScreenSize && pageNumber === 0) {
+      PAGE_SIZE = 20;
     }
 
     /**
      * от текщей страницы на размер до плюс размер страницы
-     * @type {Number}
+     * @type {number}
      */
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
@@ -201,7 +199,7 @@ define([
 
   /**
    * фильтруха. всегда принимает nowFilter или айдишкик по клику
-   * @param {String} id
+   * @param {string} id
    */
   function setFilter(id) {
     currentPage = 0;
@@ -241,7 +239,7 @@ define([
 
     /**
      * отрисовка отфильрованных фотографий
-     * @param {Array.<Object>} reviewsToRender
+     * @param {array.<object>} reviewsToRender
      * @param {number} pageNumber
      * @param {boolean=} replace всегда true потому что замена
      */
@@ -249,8 +247,8 @@ define([
 
     /**
      * забивка в стор
-     * @param {String} key
-     * @param {String} nowFilter
+     * @param {string} key
+     * @param {string} nowFilter
      */
     localStorage.setItem('filterInStorage', nowFilter);
   }

@@ -22,8 +22,8 @@ define([
 
   /**
    * функия по наследоваю одного прототипа от другово
-   * @param {Object} Photo
-   * @param {Object} PhotoBase
+   * @param {object} Photo
+   * @param {object} PhotoBase
    */
   inherit(Photo, PhotoBase);
 
@@ -53,24 +53,16 @@ define([
     var src = this._data.preview || this._data.url;
 
     if (src) {
-      var backgroundImage = new Image();
-
-      backgroundImage.onload = function() {
-
-        //this.element.style.backgroundImage = 'url(\'' + src + '\')';
-        //this.element.src = src;
-        this.element.style.width = '182px';
-        this.element.style.height = '182px';
-      }.bind(this);
+      var miniPhoto = new Image();
 
       this.element.querySelector('IMG').src = src; // ниже
       //element.replaceChild; короч нужно было заменить но я не понял
 
-      backgroundImage.onerror = function() {
+      miniPhoto.onerror = function() {
         this.element.classList.add('picture-load-failure');
       }.bind(this);
 
-      backgroundImage.src = src;
+      miniPhoto.src = src;
 
       this.element.addEventListener('click', this.onPhotoClick);
     }
@@ -80,7 +72,7 @@ define([
    * Приклеивание обработчика из другого метода
    * сработка по условию
    * изначально null
-   * @param {Event} evt
+   * @param {event} evt
    */
   Photo.prototype.onPhotoClick = function(evt) {
     evt.preventDefault();

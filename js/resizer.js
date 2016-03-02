@@ -41,7 +41,7 @@ define(function() {
           side);
 
       // Отрисовка изначального состояния канваса.
-      this.redraw();
+      this.setConstraint();
     }.bind(this);
 
     // Фиксирование контекста обработчиков.
