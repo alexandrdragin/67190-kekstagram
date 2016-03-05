@@ -53,20 +53,21 @@ define([
     var src = this._data.preview || this._data.url;
 
     if (src) {
+      var zameniMenya = this.element.querySelector('IMG');
+
       var miniPhoto = new Image();
 
-      miniPhoto.onload = function() {
+      miniPhoto.src = src;
+      miniPhoto.width = 182;
+      miniPhoto.height = 182;
 
-        this.element.style.backgroundImage = 'url(\'' + src + '\')';
-        this.element.style.backgroundSize = '182px 182px';
+      miniPhoto.onload = function() {
+        this.element.replaceChild(miniPhoto, zameniMenya);
       }.bind(this);
 
       miniPhoto.onerror = function() {
         this.element.classList.add('picture-load-failure');
       }.bind(this);
-
-      miniPhoto.src = src;
-
 
       this.element.addEventListener('click', this.onPhotoClick);
     }

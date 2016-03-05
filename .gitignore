@@ -1,4 +1,5 @@
 gosha/
+out/
 node_modules/
 optimaze/
 .DS_Store
