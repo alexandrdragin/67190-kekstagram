@@ -13,7 +13,7 @@ define([
   /**
    * основные данные для каждой фото в галлерее приявязаны намертво
    * @constructor
-   * @param {string} data
+   * @param {Object} data
    */
   function Photo(data) {
     this._data = data;
@@ -22,8 +22,8 @@ define([
 
   /**
    * функия по наследоваю одного прототипа от другово
-   * @param {object} Photo
-   * @param {object} PhotoBase
+   * @param {Object} Photo
+   * @param {Object} PhotoBase
    */
   inherit(Photo, PhotoBase);
 
