@@ -29,6 +29,7 @@ define([
 
   /**
    * метод вытаскивания тепмлейта и после забиваем его датой
+   * @type {Object}
    */
   Photo.prototype.render = function() {
 
@@ -78,6 +79,7 @@ define([
    * Приклеивание обработчика из другого метода
    * сработка по условию
    * изначально null
+   * @type {Object}
    * @param {event} evt
    */
   Photo.prototype.onPhotoClick = function(evt) {
@@ -94,6 +96,7 @@ define([
 
   /**
    * чисто
+   * @type {Object}
    */
   Photo.prototype.remove = function() {
     this.element.removeEventListener('click', this.onClick);

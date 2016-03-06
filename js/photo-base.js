@@ -20,7 +20,7 @@ define(function() {
   PhotoBase.prototype.onPhotoClick = function() {};
 
   /**
-   * Бесполезный метод по установке данных, нигде не вызывается
+   * Бесполезный метод по установке данных, не вызывается
    * @param {object} data
    */
   PhotoBase.prototype.setData = function(data) {
@@ -28,7 +28,7 @@ define(function() {
   };
 
   /**
-   * Бесполезный метод по получению данных, нигде не вызывается
+   * Бесполезный метод по получению данных, не вызывается
    * @return {object}
    */
   PhotoBase.prototype.getData = function() {

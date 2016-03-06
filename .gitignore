@@ -2,6 +2,7 @@ gosha/
 out/
 node_modules/
 optimaze/
+pdf/
 .DS_Store
 Thumbs.db
 .idea

@@ -63,6 +63,10 @@ define([
   var currentResizer;
   var imageConstraint;
 
+  /**
+   * Форма загрузки изображения.
+   * @type {HTMLFormElement}
+   */
   var resizeControls = document.querySelector('.upload-resize-controls');
   //слева
   var resizeX = resizeControls.querySelector('input[name="x"]');

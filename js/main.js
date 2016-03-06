@@ -15,15 +15,14 @@ define([
   var contaner = document.querySelector('.pictures');
 
   // появление блока с фильтрами
-  var filtersForm = document.querySelector('form[class="filters hidden"]');
-  filtersForm.className = 'filters';
+  document.querySelector('form[class="filters hidden"]').className = 'filters';
 
   /**
    * хранит изначальное состояние данных сервера
-   * @type {Array.<object>}
+   * @type {Array.<Object>}
    */
   var loadedSomeShitFromServer = null;
-  var nowCreatedObjectPhoto = [];  //обьекты компанеты
+  var nowCreatedObjectPhoto = [];  //обьекты компоненты
   var sortedPictures = null;
 
   /**
@@ -34,13 +33,13 @@ define([
   var PAGE_SIZE = 12;
 
   /**
-   * всякое
+   * Константы
    * @const {number}
    */
   var largeScreenSize = 1380; // размер широкого экрана
 
   /**
-   * @type {gallery}
+   * @type {Gallery}
    */
   var gallery = new Gallery();
 
@@ -70,7 +69,7 @@ define([
 
   /**
    * тротлим скрол
-   * @type {object}
+   * @type {Object}
    */
   var trottle;
 
@@ -80,7 +79,7 @@ define([
 
       /**
        * параметры экрана
-       * @const {number}
+       * @type {number}
        */
       var viewportSize = window.innerHeight; // размер экрана
       var totalHeight = document.body.clientHeight; // страница целиком
@@ -136,10 +135,9 @@ define([
 
     if (replace) {
 
-    /**
-     * механика перетирания содержимого страницы
-     * @type {array}
-     */
+      /**
+       * механика перетирания содержимого страницы
+       */
       var elem;
       while ((elem = nowCreatedObjectPhoto.shift())) { // уничтожение по 1 до 0
         contaner.removeChild(elem.element);
@@ -149,8 +147,8 @@ define([
     }
 
     /**
-      * На широких эранах при зарузке размер страницы будет 20
-      */
+     * На широких эранах при зарузке размер страницы будет 20
+     */
     if (document.body.clientWidth > largeScreenSize && pageNumber === 0) {
       PAGE_SIZE = 20;
     }
@@ -169,18 +167,19 @@ define([
      */
     var numberPicutersOnPage = pictures.slice(from, to);
 
-      //конкатинация массивов скеиванием
+    /**
+     * конкатинация массивов скеиванием
+     * @return {Object}
+     */
     nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
       var photoElement = new Photo(pictureData);
 
       photoElement.render(); // метод из photo.js по отрисовке одного
       contaner.appendChild(photoElement.element); // приклеивание
 
-      // и довеса на этот элемнт онклика по отрвки даты в gallery.js
+      // и довеса на этот элемнт онклика по забиву в хеш
       photoElement.onClick = function() {
-        //gallery.data = photoElement._data; // отправка даты в галлерею
         location.hash = '#photo' + '/' + photoElement._data.url;
-
       };
 
       return photoElement; // незнаю зачем здесь это но без нее не работает

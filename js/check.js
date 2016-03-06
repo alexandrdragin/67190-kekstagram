@@ -8,7 +8,7 @@ define(function() {
 
   /**
    *  проверка типа приходящего обьекта после upload
-   * @param {boolean|number|object} a - параметр для анализа
+   * @param {number|object|boolean} a - параметр для анализа
    * @param {object} b - параметр для анализа
    * @return {string} - сообщение
    */

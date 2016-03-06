@@ -7,11 +7,10 @@
 
 define(function() {
 
-/**
- * Конструктор Галерреи
- * @constructor
- */
-
+  /**
+   * Конструктор Галерреи
+   * @constructor
+   */
   var Gallery = function() {
     /**
      * @type {HTMLElement}
@@ -25,13 +24,13 @@ define(function() {
     this._comments = this.overlay.querySelector('.gallery-overlay-controls-comments');
 
     /**
-     * @type {Array}
+     * @type {Array.<Object>}
      * @private
      */
     this._pictures = [];
 
     /**
-     * @type {Number}
+     * @type {number}
      * @private
      */
     this._currentImage = 0;
@@ -50,8 +49,8 @@ define(function() {
 
   /**
    * метод для начала работы
-   * @type {object}
-   * @param {string}
+   * @type {Object}
+   * @param {string} hash
    */
   Gallery.prototype.show = function(hash) {
     this.overlay.classList.remove('invisible');
@@ -74,8 +73,8 @@ define(function() {
   };
 
   /**
-   * метод для конца работы
-   * @type {object}
+   * метод для конца работы и уборки
+   * @type {Object}
    */
   Gallery.prototype.hide = function() {
     this.overlay.classList.add('invisible');
@@ -89,6 +88,7 @@ define(function() {
 
   /**
    * Указание что посеридине делать.
+   * @type {Object}
    * @private
    */
   Gallery.prototype._onPhotoClick = function() {
@@ -97,6 +97,7 @@ define(function() {
 
   /**
    * Указание что по кресту делать.
+   * @type {Object}
    * @private
    */
   Gallery.prototype._onCloseClick = function() {
@@ -105,7 +106,8 @@ define(function() {
 
   /**
    * Обработчик события кейдаун.
-   * @param {DocumentKeyDown} evt
+   * @type {Object}
+   * @param {evt} DocumentKeyDown
    * @private
    */
   Gallery.prototype._onDocumentKeyDown = function(evt) {
@@ -124,7 +126,8 @@ define(function() {
 
   /**
    * Важный метод. принимает данные из pictures.js после каждой фильтрации.
-   * @param {Array} pictures
+   * @type {Object}
+   * @param {Array.Object} pictures
    */
   Gallery.prototype.setPhotos = function(pictures) {
     this._pictures = pictures; // отфильтрованные малышки
@@ -134,7 +137,8 @@ define(function() {
 
   /**
    * Метод по изменению индекса.
-   * @param {number | string} index
+   * @type {Object}
+   * @param {number} index
    */
   Gallery.prototype.setCurrentPhoto = function(index) {
 
@@ -153,6 +157,7 @@ define(function() {
 
   /**
    * Забивание оверлея данными.
+   * @type {Object}
    */
   Gallery.prototype.showCurrentPhoto = function() {
     this._photo.innerHTML = ' ';
@@ -171,6 +176,7 @@ define(function() {
 
   /**
    * Метод по клику на лайк, проверям, доб класс, изменяем данные
+   * @type {Object}
    * @private
    */
   Gallery.prototype._like = function() {
@@ -191,6 +197,8 @@ define(function() {
   /**
    * Определяет необходимость отображать галерею по хешу
    * вызываем при изменении страницы и после загрузки
+   * @type {Object}
+   * @private
    */
   Gallery.prototype._onHashChange = function() {
     var matchedHash = location.hash.match(/#photo\/(\S+)/);
