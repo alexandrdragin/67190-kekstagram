@@ -102,7 +102,7 @@ define(function() {
 
   /**
    * Обработчик события кейдаун.
-   * @param {Event} evt
+   * @param {KeyboardEvent} evt
    * @private
    */
   Gallery.prototype._onDocumentKeyDown = function(evt) {
@@ -121,7 +121,7 @@ define(function() {
 
   /**
    * Важный метод. принимает данные из pictures.js после каждой фильтрации.
-   * @param {Array.Object} pictures
+   * @param {Array.<Object>} pictures
    */
   Gallery.prototype.setPhotos = function(pictures) {
     this._pictures = pictures; // отфильтрованные малышки

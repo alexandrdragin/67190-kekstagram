@@ -169,6 +169,7 @@ define([
 
     /**
      * конкатенация массивов скеиванием
+     * @type {Array.<Photo>}
      * @return {Object}
      */
     nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
