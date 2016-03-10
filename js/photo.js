@@ -29,7 +29,6 @@ define([
 
   /**
    * метод вытаскивания тепмлейта и после забиваем его датой
-   * @type {Object}
    */
   Photo.prototype.render = function() {
 
@@ -54,7 +53,7 @@ define([
     var src = this._data.preview || this._data.url;
 
     if (src) {
-      var zameniMenya = this.element.querySelector('IMG');
+      var imageToReplace = this.element.querySelector('IMG');
 
       var miniPhoto = new Image();
 
@@ -63,7 +62,7 @@ define([
       miniPhoto.height = 182;
 
       miniPhoto.onload = function() {
-        this.element.replaceChild(miniPhoto, zameniMenya);
+        this.element.replaceChild(miniPhoto, imageToReplace);
       }.bind(this);
 
       miniPhoto.onerror = function() {
@@ -79,7 +78,6 @@ define([
    * Приклеивание обработчика из другого метода
    * сработка по условию
    * изначально null
-   * @type {Object}
    * @param {event} evt
    */
   Photo.prototype.onPhotoClick = function(evt) {
@@ -96,7 +94,7 @@ define([
 
   /**
    * чисто
-   * @type {Object}
+
    */
   Photo.prototype.remove = function() {
     this.element.removeEventListener('click', this.onClick);

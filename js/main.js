@@ -58,7 +58,7 @@ define([
   /**
    * Приклеивание на весь блок
    * но срабатывание по условию
-   * @param {event} evt
+   * @param {Event} evt
    */
   sortChecker.addEventListener('click', function(evt) {
     var clickedSortButton = evt.target;
@@ -168,7 +168,7 @@ define([
     var numberPicutersOnPage = pictures.slice(from, to);
 
     /**
-     * конкатинация массивов скеиванием
+     * конкатенация массивов скеиванием
      * @return {Object}
      */
     nowCreatedObjectPhoto = nowCreatedObjectPhoto.concat(numberPicutersOnPage.map(function(pictureData) {
@@ -238,7 +238,7 @@ define([
 
     /**
      * отрисовка отфильрованных фотографий
-     * @param {Array.<object>} reviewsToRender
+     * @param {Array.<Object>} reviewsToRender
      * @param {number} pageNumber
      * @param {boolean=} replace всегда true потому что замена
      */

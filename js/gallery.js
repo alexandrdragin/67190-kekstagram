@@ -49,7 +49,6 @@ define(function() {
 
   /**
    * метод для начала работы
-   * @type {Object}
    * @param {string} hash
    */
   Gallery.prototype.show = function(hash) {
@@ -74,7 +73,6 @@ define(function() {
 
   /**
    * метод для конца работы и уборки
-   * @type {Object}
    */
   Gallery.prototype.hide = function() {
     this.overlay.classList.add('invisible');
@@ -88,7 +86,6 @@ define(function() {
 
   /**
    * Указание что посеридине делать.
-   * @type {Object}
    * @private
    */
   Gallery.prototype._onPhotoClick = function() {
@@ -97,7 +94,6 @@ define(function() {
 
   /**
    * Указание что по кресту делать.
-   * @type {Object}
    * @private
    */
   Gallery.prototype._onCloseClick = function() {
@@ -106,8 +102,7 @@ define(function() {
 
   /**
    * Обработчик события кейдаун.
-   * @type {Object}
-   * @param {evt} DocumentKeyDown
+   * @param {Event} evt
    * @private
    */
   Gallery.prototype._onDocumentKeyDown = function(evt) {
@@ -126,7 +121,6 @@ define(function() {
 
   /**
    * Важный метод. принимает данные из pictures.js после каждой фильтрации.
-   * @type {Object}
    * @param {Array.Object} pictures
    */
   Gallery.prototype.setPhotos = function(pictures) {
@@ -137,7 +131,6 @@ define(function() {
 
   /**
    * Метод по изменению индекса.
-   * @type {Object}
    * @param {number} index
    */
   Gallery.prototype.setCurrentPhoto = function(index) {
@@ -157,7 +150,6 @@ define(function() {
 
   /**
    * Забивание оверлея данными.
-   * @type {Object}
    */
   Gallery.prototype.showCurrentPhoto = function() {
     this._photo.innerHTML = ' ';
@@ -176,7 +168,6 @@ define(function() {
 
   /**
    * Метод по клику на лайк, проверям, доб класс, изменяем данные
-   * @type {Object}
    * @private
    */
   Gallery.prototype._like = function() {
@@ -197,7 +188,6 @@ define(function() {
   /**
    * Определяет необходимость отображать галерею по хешу
    * вызываем при изменении страницы и после загрузки
-   * @type {Object}
    * @private
    */
   Gallery.prototype._onHashChange = function() {
