@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "eslint": "^1.10.3",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "description": "Личный проект «Кекстаграм» от HTML Academy",
+  "engines": {
+    "node": "^5.0.0"
+  },
+  "private": true,
+  "scripts": {
+    "gosha": "webpack --config webpack.config.js ./js/main.js",
+    "start": "webpack-dev-server --watch --config webpack.config.js",
+    "test": "eslint js/"
+  },
+  "version": "0.1.0"
+}

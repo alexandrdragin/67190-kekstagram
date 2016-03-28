@@ -1,34 +1,9 @@
-# Личный проект «Кекстаграм»
+ковырял js
 
-[![Build status][travis-image]][travis-url]
-[![Dependency status][dependency-image]][dependency-url]
+Темплейты, эвенты, инфинити скрол, аякс, фильтрация
+опп
+адресная строка 
+local storage
+requare js
 
-* Студент: [Alexandr Dragin](https://htmlacademy.ru/profile/id67190).
-* Наставник: `Неизвестно`.
-
-### Немного о себе
-`Фрондэнд-иллюстратор`.
-
-
-##### Вы прошли интенсивный онлайн-курс «Базовый HTML и CSS»?
-`Нет, но я был на прошлом на базовом JS`.
-
-
-##### Вы прошли интенсивный онлайн-курс «Продвинутый HTML и CSS»?
-`Нет, но я был на прошлом на базовом JS`.
-
----
-
-_Не удаляйте и не обращайте внимание на файлы:_<br>
-_`.editorconfig`, `.eslintignore`, `.eslintrc`, `.gitignore`, `.travis.yml`, `Makefile`, `package.json`._
-
----
-
-<a href="https://htmlacademy.ru/js_intensive"><img align="left" width="50" height="50" title="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github.svg"></a>
-
-Репозиторий создан для обучения на интенсивном онлайн-курсе «[Базовый JavaScript](https://htmlacademy.ru/js_intensive)» от [HTML Academy](https://htmlacademy.ru).
-
-[travis-image]: https://travis-ci.org/htmlacademy-javascript/67190-kekstagram.svg?branch=master
-[travis-url]: https://travis-ci.org/htmlacademy-javascript/67190-kekstagram
-[dependency-image]: https://david-dm.org/htmlacademy-javascript/67190-kekstagram.svg?style=flat-square
-[dependency-url]: https://david-dm.org/htmlacademy-javascript/67190-kekstagram
+web pack
